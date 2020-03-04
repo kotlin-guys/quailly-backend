@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+
+  cardinal:
+    restart: always
+    build:
+      context: ./cardinal
+    hostname: cardinal
+    ports:
+      - 20000:20000
+    networks:
+      - backend
+
+  db-cardinal:
+    restart: always
+    image: postgres:12.1-alpine
+    hostname: db-cardinal
+    volumes:
+      - :/var/lib/postgresql/data:delegated
+    ports:
+      - 5432:5432
+    environment:
+      - PGPORT=5432
+      - USER_NAME=cardinal
+      - DB_NAME=cardinal
+      - SCHEMA_NAME=cardinal
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - TZ=UTC
+    networks:
+      - backend
+
+networks:
+  backend:
+  frontend:
