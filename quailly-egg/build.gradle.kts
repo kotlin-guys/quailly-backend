@@ -1,4 +1,3 @@
-
 plugins {
     kotlin("jvm")
     id("org.springframework.boot")
@@ -13,6 +12,8 @@ repositories {
 dependencies {
     implementation(Libs.kotlinStdlib)
     implementation(Libs.kotlinReflect)
+    implementation(Libs.kotlinJdk8)
+    runtimeOnly("javax.xml.bind:jaxb-api:2.3.1")
 
     implementation(Libs.jacksonKotlin)
 

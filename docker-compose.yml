@@ -14,7 +14,7 @@ services:
 
   db-quailly:
     restart: always
-    image: 12.2-alpine
+    image: postgres:12.2-alpine
     hostname: db-quailly
     volumes:
       - db-quailly-data:/var/lib/postgresql/data:delegated

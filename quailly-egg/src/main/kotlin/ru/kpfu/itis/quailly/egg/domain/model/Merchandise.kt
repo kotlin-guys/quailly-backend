@@ -1,6 +1,5 @@
 package ru.kpfu.itis.quailly.egg.domain.model
 
-import org.springframework.data.annotation.Id
 import javax.persistence.*
 
 @Entity

@@ -16,6 +16,7 @@ object Vers {
 object Libs {
     const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Vers.kotlin}"
     const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Vers.kotlin}"
+    const val kotlinJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Vers.kotlin}"
 
     const val springR2dbc = "org.springframework.boot.experimental:spring-boot-starter-data-r2dbc:${Vers.springR2dbc}"
     const val springDataJpa = "org.springframework.boot:spring-boot-starter-data-jpa:${Vers.springBoot}"

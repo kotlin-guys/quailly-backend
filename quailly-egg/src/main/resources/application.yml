@@ -1,9 +1,8 @@
 spring:
   datasource:
-    hikari:
-      username: quailly
-      password: quailly
-      jdbc-url: jdbc:postgresql://db-quailly/quailly
+    username: quailly
+    password: quailly
+    url: jdbc:postgresql://db-quailly/quailly
   jpa:
     generate-ddl: true
     hibernate:
