@@ -14,22 +14,22 @@ services:
 
   db-quailly:
     restart: always
-    image: postgres:12.1-alpine
+    image: 12.2-alpine
     hostname: db-quailly
     volumes:
-      - :/var/lib/postgresql/data:delegated
+      - db-quailly-data:/var/lib/postgresql/data:delegated
     ports:
       - 5432:5432
     environment:
-      - PGPORT=5432
-      - USER_NAME=quailly
-      - DB_NAME=quailly
-      - SCHEMA_NAME=quailly
-      - PGDATA=/var/lib/postgresql/data/pgdata
-      - TZ=UTC
+      POSTGRES_USER: quailly
+      POSTGRES_PASSWORD: quailly
+      POSTGRES_DB: quailly
     networks:
       - backend
 
 networks:
   backend:
   frontend:
+
+volumes:
+  db-quailly-data:

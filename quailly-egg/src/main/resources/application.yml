@@ -1,1 +1,12 @@
-
+spring:
+  datasource:
+    hikari:
+      username: quailly
+      password: quailly
+      jdbc-url: jdbc:postgresql://db-quailly/quailly
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+server:
+  port: 20000

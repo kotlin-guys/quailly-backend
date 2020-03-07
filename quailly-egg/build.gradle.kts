@@ -2,6 +2,7 @@
 plugins {
     kotlin("jvm")
     id("org.springframework.boot")
+    id("org.jetbrains.kotlin.plugin.noarg") version Vers.kotlin
 }
 
 repositories {
@@ -11,8 +12,12 @@ repositories {
 
 dependencies {
     implementation(Libs.kotlinStdlib)
+    implementation(Libs.kotlinReflect)
+
+    implementation(Libs.jacksonKotlin)
 
     implementation(Libs.springWebflux)
-    implementation(Libs.springR2dbc)
-    implementation(Libs.postgresR2dbc)
+
+    implementation(Libs.postgres)
+    implementation(Libs.springDataJpa)
 }
