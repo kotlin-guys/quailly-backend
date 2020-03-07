@@ -1,0 +1,1 @@
+web: java -Xmx128m -jar build/libs/quailly-egg.jar
