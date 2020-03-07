@@ -7,13 +7,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-stdlib:1.3.61")
+        classpath(Libs.kotlinStdlib)
     }
 }
 
 plugins {
-    kotlin("jvm") version "1.3.61" apply false
-    id("org.springframework.boot") version "2.2.5.RELEASE"
+    kotlin("jvm") version Vers.kotlin apply false
+    id("org.springframework.boot") version Vers.springBoot
 }
 
 subprojects {
@@ -26,7 +26,7 @@ subprojects {
 
     tasks {
         withType<KotlinCompile> {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "8"
             kotlinOptions.allWarningsAsErrors = true
         }
     }
