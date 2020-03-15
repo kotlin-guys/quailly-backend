@@ -26,7 +26,7 @@ subprojects {
 
     tasks {
         withType<KotlinCompile> {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "1.8"
             kotlinOptions.allWarningsAsErrors = true
         }
     }
