@@ -1,8 +1,8 @@
 spring:
   datasource:
-    username: quailly
-    password: quailly
-    url: jdbc:postgresql://db-quailly/quailly
+    username: ${SPRING_DATASOURCE_USERNAME:quailly}
+    password: ${SPRING_DATASOURCE_PASSWORD:quailly}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db-quailly/quailly}
   jpa:
     generate-ddl: true
     hibernate:

@@ -21,8 +21,8 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: quailly
-      POSTGRES_PASSWORD: quailly
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME:quailly}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:quailly}
       POSTGRES_DB: quailly
     networks:
       - backend
