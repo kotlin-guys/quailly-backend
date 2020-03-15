@@ -1,5 +1,5 @@
 object Vers {
-    const val kotlin = "1.3.70"
+    const val kotlin = "1.3.61"
 
     const val springBoot = "2.2.5.RELEASE"
     const val springCloud = "Hoxton.SR1"
@@ -11,6 +11,7 @@ object Vers {
 
     const val reactorTest = "3.3.2.RELEASE"
     const val jacksonKotlin = "2.10.3"
+    const val jaxb = "2.3.1"
 }
 
 object Libs {
@@ -33,4 +34,6 @@ object Libs {
     const val liquibase = "org.liquibase:liquibase-core:${Vers.liquibase}"
 
     const val reactorTest = "io.projectreactor:reactor-test:${Vers.reactorTest}"
+
+    const val jaxb = "javax.xml.bind:jaxb-api:${Vers.jaxb}"
 }

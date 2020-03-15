@@ -13,7 +13,7 @@ dependencies {
     implementation(Libs.kotlinStdlib)
     implementation(Libs.kotlinReflect)
     implementation(Libs.kotlinJdk8)
-    runtimeOnly("javax.xml.bind:jaxb-api:2.3.1")
+    runtimeOnly(Libs.jaxb)
 
     implementation(Libs.jacksonKotlin)
 
