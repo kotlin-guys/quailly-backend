@@ -8,4 +8,4 @@ spring:
     hibernate:
       ddl-auto: create-drop
 server:
-  port: 20000
+  port: ${PORT:20000}
