@@ -7,5 +7,6 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 server:
   port: ${PORT:20000}

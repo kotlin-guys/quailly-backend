@@ -5,8 +5,10 @@ plugins {
 }
 
 repositories {
-    maven(url = "https://repo.spring.io/milestone/")
     mavenCentral()
+    jcenter()
+    maven(url = "https://repo.spring.io/milestone/")
+    maven(url = "http://oss.jfrog.org/artifactory/oss-snapshot-local/")
 }
 
 dependencies {
@@ -14,6 +16,9 @@ dependencies {
     implementation(Libs.kotlinReflect)
     implementation(Libs.kotlinJdk8)
     runtimeOnly(Libs.jaxb)
+    implementation(Libs.swagger)
+    implementation(Libs.swaggerUi)
+    implementation(Libs.swaggerWebflux)
 
     implementation(Libs.jacksonKotlin)
 

@@ -12,6 +12,7 @@ object Vers {
     const val reactorTest = "3.3.2.RELEASE"
     const val jacksonKotlin = "2.10.3"
     const val jaxb = "2.3.1"
+    const val swagger = "3.0.0-SNAPSHOT"
 }
 
 object Libs {
@@ -36,4 +37,7 @@ object Libs {
     const val reactorTest = "io.projectreactor:reactor-test:${Vers.reactorTest}"
 
     const val jaxb = "javax.xml.bind:jaxb-api:${Vers.jaxb}"
+    const val swagger = "io.springfox:springfox-swagger2:${Vers.swagger}"
+    const val swaggerWebflux = "io.springfox:springfox-spring-webflux:${Vers.swagger}"
+    const val swaggerUi = "io.springfox:springfox-swagger-ui:${Vers.swagger}"
 }
