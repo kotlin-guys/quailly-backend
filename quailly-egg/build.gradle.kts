@@ -18,11 +18,14 @@ dependencies {
     runtimeOnly(Libs.jaxb)
     implementation(Libs.swagger)
     implementation(Libs.swaggerUi)
-    implementation(Libs.swaggerWebflux)
-
     implementation(Libs.jacksonKotlin)
 
-    implementation(Libs.springWebflux)
+    implementation(Libs.springWeb)
+    implementation(Libs.springHalExplorer)
+    implementation(Libs.springHateoas)
+    implementation(Libs.springRestDocs)
+    implementation(Libs.springDataRest)
+
 
     implementation(Libs.postgres)
     implementation(Libs.springDataJpa)

@@ -3,6 +3,7 @@ version: '3'
 services:
 
   quailly-egg:
+    container_name: quailly
     restart: always
     build:
       context: ./quailly-egg
@@ -13,17 +14,18 @@ services:
       - backend
 
   db-quailly:
+    container_name: db-quailly
     restart: always
     image: postgres:12.2-alpine
     hostname: db-quailly
     volumes:
-      - db-quailly-data:/var/lib/postgresql/data:delegated
+      - db-quailly:/var/lib/postgresql/data:delegated
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: quailly:${SPRING_DATASOURCE_USERNAME}
-      POSTGRES_PASSWORD: quailly:${SPRING_DATASOURCE_PASSWORD}
-      POSTGRES_DB: quailly
+      - POSTGRES_USER=quailly
+      - POSTGRES_PASSWORD=quailly
+      - POSTGRES_DB=quailly
     networks:
       - backend
 
@@ -32,4 +34,4 @@ networks:
   frontend:
 
 volumes:
-  db-quailly-data:
+  db-quailly:

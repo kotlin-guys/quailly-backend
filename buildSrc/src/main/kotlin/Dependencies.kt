@@ -13,6 +13,9 @@ object Vers {
     const val jacksonKotlin = "2.10.3"
     const val jaxb = "2.3.1"
     const val swagger = "3.0.0-SNAPSHOT"
+    const val halExplorer = "3.2.5.RELEASE"
+    const val hateoas = "1.0.3.RELEASE"
+    const val restDocs = "2.0.4.RELEASE"
 }
 
 object Libs {
@@ -40,4 +43,10 @@ object Libs {
     const val swagger = "io.springfox:springfox-swagger2:${Vers.swagger}"
     const val swaggerWebflux = "io.springfox:springfox-spring-webflux:${Vers.swagger}"
     const val swaggerUi = "io.springfox:springfox-swagger-ui:${Vers.swagger}"
+
+    const val springWeb = "org.springframework.boot:spring-boot-starter-web:${Vers.springBoot}"
+    const val springHateoas = "org.springframework.boot:spring-boot-starter-hateoas:${Vers.springBoot}"
+    const val springDataRest = "org.springframework.boot:spring-boot-starter-data-rest:${Vers.springBoot}"
+    const val springHalExplorer = "org.springframework.data:spring-data-rest-hal-explorer:${Vers.halExplorer}"
+    const val springRestDocs = "org.springframework.restdocs:spring-restdocs-mockmvc:${Vers.restDocs}"
 }
