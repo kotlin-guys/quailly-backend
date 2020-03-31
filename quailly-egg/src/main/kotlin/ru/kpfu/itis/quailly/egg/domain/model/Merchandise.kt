@@ -10,5 +10,9 @@ data class Merchandise(
     @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     val author: Account,
     val name: String,
-    val description: String
+    val description: String,
+    @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    val category: MerchantCategory,
+    @ManyToOne
+    val exchangeDesires: ExchangeDesire
 )

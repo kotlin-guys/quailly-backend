@@ -4,17 +4,15 @@ import java.time.ZonedDateTime
 import javax.persistence.*
 
 @Entity
-data class Exchange(
+data class Message(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
-    val publicationDateTime: ZonedDateTime,
-    @Enumerated(EnumType.STRING)
-    val exchangeStatus: ExchangeStatus,
+    val created: ZonedDateTime,
     @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    val firstMerchandise: Merchandise,
+    val sender: Account,
     @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    val secondMerchandise: Merchandise,
-    @OneToMany(mappedBy = "exchange")
-    val messages: List<Message>
+    val receiver: Account,
+    @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    val exchange: Exchange
 )

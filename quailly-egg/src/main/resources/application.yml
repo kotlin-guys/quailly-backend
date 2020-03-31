@@ -6,8 +6,16 @@ spring:
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 995330817155-dot2044o2bt5ev47b47okbig7kp4lfjm.apps.googleusercontent.com
+            client-secret: 6eIjP1Vpzvu457ulMGtxF-RO
+
 server:
   port: ${PORT:20000}

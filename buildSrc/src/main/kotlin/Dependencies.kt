@@ -16,6 +16,8 @@ object Vers {
     const val halExplorer = "3.2.5.RELEASE"
     const val hateoas = "1.0.3.RELEASE"
     const val restDocs = "2.0.4.RELEASE"
+
+    const val springSecurityOauth = "5.3.0.RELEASE"
 }
 
 object Libs {
@@ -27,7 +29,8 @@ object Libs {
     const val springDataJpa = "org.springframework.boot:spring-boot-starter-data-jpa:${Vers.springBoot}"
     const val springWebflux = "org.springframework.boot:spring-boot-starter-webflux:${Vers.springBoot}"
     const val springZookeeper = "org.springframework.cloud:spring-cloud-starter-zookeeper-discovery:${Vers.springBoot}"
-    const val springMongoDbReactive = "org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${Vers.springBoot}"
+    const val springMongoDbReactive =
+        "org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${Vers.springBoot}"
     const val springConfigProcessor = "org.springframework.boot:spring-boot-configuration-processor:${Vers.springBoot}"
 
     const val springTest = "org.springframework.boot:spring-boot-starter-test:${Vers.springBoot}"
@@ -49,4 +52,9 @@ object Libs {
     const val springDataRest = "org.springframework.boot:spring-boot-starter-data-rest:${Vers.springBoot}"
     const val springHalExplorer = "org.springframework.data:spring-data-rest-hal-explorer:${Vers.halExplorer}"
     const val springRestDocs = "org.springframework.restdocs:spring-restdocs-mockmvc:${Vers.restDocs}"
+
+    const val springSecurityAuto =
+        "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${Vers.springBoot}"
+    const val springSecurityOauth =
+        "org.springframework.security:spring-security-oauth2-client:${Vers.springSecurityOauth}"
 }

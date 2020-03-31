@@ -24,8 +24,8 @@ class AccountRest(
         return accountService.findAllAccounts()
     }
 
-    @PostMapping
+    /*@PostMapping
     fun createAccount(): Account {
-        return accountService.createAccount(Account(1, "test", "228", listOf()))
-    }
+        return accountService.createAccount(Account(1, "test", "228", ))
+    }*/
 }
