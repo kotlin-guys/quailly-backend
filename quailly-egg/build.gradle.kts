@@ -24,11 +24,10 @@ dependencies {
     implementation(Libs.springHalExplorer)
     implementation(Libs.springHateoas)
     implementation(Libs.springRestDocs)
-    implementation(Libs.springDataRest)
-//    implementation(Libs.springSecurityOauth)
-//    implementation(Libs.springSecurityAuto)
 
-    implementation(Libs.postgres)
     implementation(Libs.springDataJpa)
+    implementation(Libs.postgres)
 
+    testImplementation(Libs.springTest)
+    testImplementation(Libs.springRestDocs)
 }
