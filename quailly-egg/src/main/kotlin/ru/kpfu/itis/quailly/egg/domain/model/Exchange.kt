@@ -15,8 +15,8 @@ data class Exchange(
     val firstMerchandise: Merchandise,
     @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     val secondMerchandise: Merchandise,
-    @OneToMany(mappedBy = "exchange")
-    val messages: List<Message>
+    @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
+    val dialog: Dialog
 )
 
 enum class ExchangeStatus {
