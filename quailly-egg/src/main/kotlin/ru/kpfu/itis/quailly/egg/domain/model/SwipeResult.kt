@@ -6,11 +6,14 @@ import javax.persistence.*
 data class SwipeResult(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
-    @OneToOne
-    val account: Account,
-    @OneToOne
-    val merchandise: Merchandise,
+    val id: Long? = null,
+    val accountId: Long,
+    val merchandiseId: Long,
     @Enumerated(EnumType.STRING)
     val swipe: Swipe
 )
+
+enum class Swipe {
+    LEFT,
+    RIGHT
+}

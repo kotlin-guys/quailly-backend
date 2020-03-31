@@ -7,12 +7,12 @@ import javax.persistence.*
 data class Account(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long? = null,
     val username: String,
     val email: String,
     val password: String,
     val phoneNumber: String?,
     val registrationDateTime: ZonedDateTime,
-    @OneToMany
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "author", orphanRemoval = true)
     val merchandises: List<Merchandise>
 )

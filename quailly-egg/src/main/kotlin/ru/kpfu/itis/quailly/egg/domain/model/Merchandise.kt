@@ -6,13 +6,11 @@ import javax.persistence.*
 data class Merchandise(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
-    @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    val author: Account,
+    val id: Long? = null,
     val name: String,
     val description: String,
-    @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     val category: MerchantCategory,
-    @ManyToOne
-    val exchangeDesires: ExchangeDesire
+    @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    val author: Account
 )

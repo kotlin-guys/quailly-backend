@@ -7,7 +7,7 @@ import javax.persistence.*
 data class Exchange(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long? = null,
     val publicationDateTime: ZonedDateTime,
     @Enumerated(EnumType.STRING)
     val exchangeStatus: ExchangeStatus,
@@ -18,3 +18,9 @@ data class Exchange(
     @OneToMany(mappedBy = "exchange")
     val messages: List<Message>
 )
+
+enum class ExchangeStatus {
+    INITIATED,
+    COMMUNICATION_PENDING,
+    SUCCESS
+}
