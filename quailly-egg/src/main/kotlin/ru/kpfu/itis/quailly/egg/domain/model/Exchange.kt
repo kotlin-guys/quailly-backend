@@ -5,17 +5,17 @@ import javax.persistence.*
 
 @Entity
 data class Exchange(
-    @Id
+        @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-    val publicationDateTime: ZonedDateTime,
-    @Enumerated(EnumType.STRING)
+        val publicationDateTime: ZonedDateTime,
+        @Enumerated(EnumType.STRING)
     val exchangeStatus: ExchangeStatus,
-    @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     val firstMerchandise: Merchandise,
-    @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     val secondMerchandise: Merchandise,
-    @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
+        @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
     val dialog: Dialog
 )
 

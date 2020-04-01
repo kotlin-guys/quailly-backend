@@ -11,6 +11,10 @@ repositories {
     maven(url = "http://oss.jfrog.org/artifactory/oss-snapshot-local/")
 }
 
+tasks.test {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation(Libs.kotlinStdlib)
     implementation(Libs.kotlinReflect)
@@ -28,6 +32,8 @@ dependencies {
     implementation(Libs.springDataJpa)
     implementation(Libs.postgres)
 
-    testImplementation(Libs.springTest)
+    testImplementation(Libs.springTest) {
+        exclude("org.junit.vintage", "junit-vintage-engine")
+    }
     testImplementation(Libs.springRestDocs)
 }
