@@ -53,6 +53,7 @@ object Libs {
     const val springHalExplorer = "org.springframework.data:spring-data-rest-hal-explorer:${Vers.halExplorer}"
     const val springRestDocs = "org.springframework.restdocs:spring-restdocs-mockmvc:${Vers.restDocs}"
 
+    const val springSecurity = "org.springframework.boot:spring-boot-starter-security:${Vers.springBoot}"
     const val springSecurityAuto =
         "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${Vers.springBoot}"
     const val springSecurityOauth =

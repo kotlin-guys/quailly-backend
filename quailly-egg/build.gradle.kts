@@ -20,14 +20,14 @@ dependencies {
     implementation(Libs.kotlinReflect)
     implementation(Libs.kotlinJdk8)
     runtimeOnly(Libs.jaxb)
+
+    implementation("org.springdoc:springdoc-openapi-ui:1.3.2")
     implementation(Libs.swagger)
     implementation(Libs.swaggerUi)
     implementation(Libs.jacksonKotlin)
 
     implementation(Libs.springWeb)
-    implementation(Libs.springHalExplorer)
-    implementation(Libs.springHateoas)
-    implementation(Libs.springRestDocs)
+    implementation(Libs.springSecurity)
 
     implementation(Libs.springDataJpa)
     implementation(Libs.postgres)
@@ -35,5 +35,4 @@ dependencies {
     testImplementation(Libs.springTest) {
         exclude("org.junit.vintage", "junit-vintage-engine")
     }
-    testImplementation(Libs.springRestDocs)
 }

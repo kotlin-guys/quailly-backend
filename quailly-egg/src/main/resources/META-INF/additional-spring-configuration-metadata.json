@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "quailly.server.zone-id",
+      "type": "java.time.ZoneId",
+      "description": "Zone id"
+    }
+  ]
+}
