@@ -1,7 +1,10 @@
+import com.rohanprabhu.gradle.plugins.kdjooq.*
+
 plugins {
     kotlin("jvm")
     id("org.springframework.boot")
     id("org.jetbrains.kotlin.plugin.noarg") version Vers.kotlin
+    id("com.rohanprabhu.kotlin-dsl-jooq") version "0.4.5"
 }
 
 repositories {
@@ -21,18 +24,49 @@ dependencies {
     implementation(Libs.kotlinJdk8)
     runtimeOnly(Libs.jaxb)
 
-    implementation("org.springdoc:springdoc-openapi-ui:1.3.2")
+    implementation(Libs.springDoc)
+    implementation(Libs.jooqCodegen)
+    implementation(Libs.jooqMeta)
     implementation(Libs.swagger)
     implementation(Libs.swaggerUi)
     implementation(Libs.jacksonKotlin)
+    jooqGeneratorRuntime(Libs.postgres)
 
     implementation(Libs.springWeb)
     implementation(Libs.springSecurity)
 
-    implementation(Libs.springDataJpa)
+    implementation(Libs.springJooq)
     implementation(Libs.postgres)
 
     testImplementation(Libs.springTest) {
         exclude("org.junit.vintage", "junit-vintage-engine")
+    }
+}
+
+jooqGenerator {
+    jooqEdition = JooqEdition.OpenSource
+    jooqVersion = Vers.jooq
+    configuration("primary", sourceSets.getByName("main")) {
+        configuration = jooqCodegenConfiguration {
+            jdbc {
+                username = "quailly"
+                password = "quailly"
+                driver = "org.postgresql.Driver"
+                url = "jdbc:postgresql://localhost:5432/quailly"
+            }
+
+            generator {
+                target {
+                    packageName = "ru.kpfu.itis.quailly.egg.repository.jooq.schema"
+                    directory = "${project.buildDir}/generated/jooq/primary"
+                    isClean = true
+                }
+
+                database {
+                    name = "org.jooq.meta.postgres.PostgresDatabase"
+                    inputSchema = "public"
+                }
+            }
+        }
     }
 }

@@ -16,6 +16,8 @@ object Vers {
     const val halExplorer = "3.2.5.RELEASE"
     const val hateoas = "1.0.3.RELEASE"
     const val restDocs = "2.0.4.RELEASE"
+    const val jooq = "3.12.4"
+    const val springDoc = "1.3.2"
 
     const val springSecurityOauth = "5.3.0.RELEASE"
 }
@@ -32,14 +34,16 @@ object Libs {
     const val springMongoDbReactive =
         "org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${Vers.springBoot}"
     const val springConfigProcessor = "org.springframework.boot:spring-boot-configuration-processor:${Vers.springBoot}"
-
+    const val springJooq = "org.springframework.boot:spring-boot-starter-jooq:${Vers.springBoot}"
     const val springTest = "org.springframework.boot:spring-boot-starter-test:${Vers.springBoot}"
 
     const val jacksonKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Vers.jacksonKotlin}"
     const val postgres = "org.postgresql:postgresql:${Vers.postgres}"
     const val postgresR2dbc = "io.r2dbc:r2dbc-postgresql:${Vers.postgresR2dbc}"
     const val liquibase = "org.liquibase:liquibase-core:${Vers.liquibase}"
-
+    const val jooq = "org.jooq:jooq:${Vers.jooq}"
+    const val jooqCodegen = "org.jooq:jooq-codegen:${Vers.jooq}"
+    const val jooqMeta = "org.jooq:jooq-meta:${Vers.jooq}"
     const val reactorTest = "io.projectreactor:reactor-test:${Vers.reactorTest}"
 
     const val jaxb = "javax.xml.bind:jaxb-api:${Vers.jaxb}"
@@ -52,6 +56,7 @@ object Libs {
     const val springDataRest = "org.springframework.boot:spring-boot-starter-data-rest:${Vers.springBoot}"
     const val springHalExplorer = "org.springframework.data:spring-data-rest-hal-explorer:${Vers.halExplorer}"
     const val springRestDocs = "org.springframework.restdocs:spring-restdocs-mockmvc:${Vers.restDocs}"
+    const val springDoc = "org.springdoc:springdoc-openapi-ui:${Vers.springDoc}"
 
     const val springSecurity = "org.springframework.boot:spring-boot-starter-security:${Vers.springBoot}"
     const val springSecurityAuto =

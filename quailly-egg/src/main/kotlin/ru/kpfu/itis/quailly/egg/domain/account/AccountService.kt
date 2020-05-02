@@ -22,7 +22,7 @@ class AccountService(
         val account = accountRepository.findByEmail(accountEmail)
 
         if (account == null) {
-            accountRepository.save(
+            accountRepository.create(
                 Account(
                     email = accountVerificationData.email,
                     emailVerified = accountVerificationData.emailVerified,

@@ -3,12 +3,6 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME:quailly}
     password: ${SPRING_DATASOURCE_PASSWORD:quailly}
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db-quailly/quailly}
-  jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    open-in-view: false
 server:
   port: ${PORT:20000}
 
