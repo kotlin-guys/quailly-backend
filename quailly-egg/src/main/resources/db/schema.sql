@@ -76,16 +76,19 @@ CREATE TABLE desired_merchandise_catalog
     category_id    bigint NOT NULL
 );
 
+BEGIN;
+
 ALTER TABLE account
     ADD CONSTRAINT account_pk PRIMARY KEY (id);
+
+ALTER TABLE merchandise_category
+    ADD CONSTRAINT merchandise_category_pk PRIMARY KEY (id);
 
 ALTER TABLE merchandise
     ADD CONSTRAINT merchandise_pk PRIMARY KEY (id),
     ADD CONSTRAINT merchandise_author_id_fk FOREIGN KEY (author_id) REFERENCES account (id),
     ADD CONSTRAINT merchandise_category_id_fk FOREIGN KEY (category_id) REFERENCES merchandise_category (id);
 
-ALTER TABLE merchandise_category
-    ADD CONSTRAINT merchandise_category_pk PRIMARY KEY (id);
 
 ALTER TABLE desired_merchandise_catalog
     ADD CONSTRAINT desired_merchandise_catalog_merchandise_id_fk FOREIGN KEY (merchandise_id) REFERENCES merchandise (id),
@@ -112,3 +115,5 @@ ALTER TABLE exchange
     ADD CONSTRAINT message_author_id_fk FOREIGN KEY (author_id) REFERENCES account (id),
     ADD CONSTRAINT exchange_first_merchandise_id_fk FOREIGN KEY (first_merchandise_id) REFERENCES merchandise (id),
     ADD CONSTRAINT exchange_second_merchandise_id_fk FOREIGN KEY (second_merchandise_id) REFERENCES merchandise (id);
+
+COMMIT;
