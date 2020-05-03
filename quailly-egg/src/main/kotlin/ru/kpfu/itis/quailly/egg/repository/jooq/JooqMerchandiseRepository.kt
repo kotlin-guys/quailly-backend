@@ -11,8 +11,8 @@ open class JooqMerchandiseRepository(private val jooq: DSLContext) : Merchandise
 
     override fun create(entity: Merchandise): Merchandise =
         jooq.insertInto(MERCHANDISE)
-            .columns(MERCHANDISE.NAME, MERCHANDISE.DESCRIPTION, MERCHANDISE.CATEGORY, MERCHANDISE.AUTHORID)
-            .values(entity.name, entity.description, entity.category, entity.authorId)
+            .columns(MERCHANDISE.NAME, MERCHANDISE.DESCRIPTION, MERCHANDISE.CATEGORY_ID, MERCHANDISE.AUTHOR_ID)
+            .values(entity.name, entity.description, entity.categoryId, entity.authorId)
             .returning()
             .fetchOne()
             .into(Merchandise::class.java)
@@ -35,7 +35,7 @@ open class JooqMerchandiseRepository(private val jooq: DSLContext) : Merchandise
 
     override fun getAllForAuthor(authorId: Long): List<Merchandise> {
         return jooq.select().from(MERCHANDISE)
-            .where(MERCHANDISE.AUTHORID.eq(authorId))
+            .where(MERCHANDISE.AUTHOR_ID.eq(authorId))
             .fetch()
             .into(Merchandise::class.java)
     }

@@ -1,7 +1,7 @@
 package ru.kpfu.itis.quailly.egg.domain.model
 
 
-data class SwipeHistory(
+data class Swipe(
     val id: Long? = null,
     val accountId: Long,
     val merchandiseId: Long,

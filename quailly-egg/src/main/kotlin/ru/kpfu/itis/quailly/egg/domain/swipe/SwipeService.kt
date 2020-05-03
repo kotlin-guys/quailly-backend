@@ -1,22 +1,22 @@
 package ru.kpfu.itis.quailly.egg.domain.swipe
 
 import org.springframework.stereotype.Service
-import ru.kpfu.itis.quailly.egg.domain.model.SwipeHistory
-import ru.kpfu.itis.quailly.egg.repository.SwipeHistoryRepository
+import ru.kpfu.itis.quailly.egg.domain.model.Swipe
+import ru.kpfu.itis.quailly.egg.repository.SwipeRepository
 
 @Service
-class SwipeService(private val swipeHistoryRepository: SwipeHistoryRepository) {
+class SwipeService(private val swipeRepository: SwipeRepository) {
 
 
     fun swipe(request: SwipeRequest, accountId: Long): SwipeResult {
-        swipeHistoryRepository.create(
-            SwipeHistory(
+        swipeRepository.create(
+            Swipe(
                 accountId = accountId,
                 merchandiseId = request.merchandiseId,
                 direction = request.direction
             )
         )
-        swipeHistoryRepository.getById(request.merchandiseId)
+        swipeRepository.getById(request.merchandiseId)
         return SwipeResult.Success
     }
 }

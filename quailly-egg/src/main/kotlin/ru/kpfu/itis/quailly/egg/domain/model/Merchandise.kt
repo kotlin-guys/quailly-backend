@@ -5,6 +5,6 @@ data class Merchandise(
     val id: Long? = null,
     val name: String,
     val description: String,
-    val category: String,
+    val categoryId: Long,
     val authorId: Long
 )

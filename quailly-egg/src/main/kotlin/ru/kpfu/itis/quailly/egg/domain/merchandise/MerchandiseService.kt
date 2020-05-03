@@ -16,7 +16,7 @@ class MerchandiseService(
         val newMerchandise = Merchandise(
             name = merchandiseCreationRequest.name,
             description = merchandiseCreationRequest.description,
-            category = merchandiseCreationRequest.category,
+            categoryId = merchandiseCreationRequest.categoryId,
             authorId = authorId
         )
         merchandiseRepository.create(newMerchandise)

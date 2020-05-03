@@ -14,16 +14,16 @@ open class JooqAccountRepository(private val jooq: DSLContext) : AccountReposito
             .columns(
                 ACCOUNT.USERNAME,
                 ACCOUNT.EMAIL,
-                ACCOUNT.EMAILVERIFIED,
-                ACCOUNT.FIRSTNAME,
-                ACCOUNT.FAMILYNAME,
-                ACCOUNT.GIVENNAME,
-                ACCOUNT.PICTUREURL,
+                ACCOUNT.EMAIL_VERIFIED,
+                ACCOUNT.FIRST_NAME,
+                ACCOUNT.FAMILY_NAME,
+                ACCOUNT.GIVEN_NAME,
+                ACCOUNT.PICTURE_URL,
                 ACCOUNT.LOCALE,
                 ACCOUNT.PASSWORD,
-                ACCOUNT.PHONENUMBER,
-                ACCOUNT.LASTVISIT,
-                ACCOUNT.REGISTRATIONDATETIME,
+                ACCOUNT.PHONE_NUMBER,
+                ACCOUNT.LAST_VISIT,
+                ACCOUNT.REGISTRATION_DATETIME,
                 ACCOUNT.TOKEN
             )
             .values(
