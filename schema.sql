@@ -44,6 +44,7 @@ CREATE TABLE dialog
 CREATE TABLE message
 (
     id            serial,
+    dialogId      bigint,
     senderId      bigint,
     destinationId bigint,
     content       text
@@ -52,6 +53,7 @@ CREATE TABLE message
 CREATE TABLE exchange
 (
     id                  serial,
+    authorId            bigint,
     firstMerchandiseId  bigint,
     secondMerchandiseId bigint,
     publicationDateTime bigint,
@@ -69,13 +71,24 @@ ALTER TABLE merchandise
     ADD CONSTRAINT merchandise_authorId_fk FOREIGN KEY (authorId) REFERENCES account (id);
 
 ALTER TABLE swipe_history
-    ADD CONSTRAINT swipe_history_pk PRIMARY KEY (id);
+    ADD CONSTRAINT swipe_history_pk PRIMARY KEY (id),
+    ADD CONSTRAINT swipe_history_swiperId_fk FOREIGN KEY (swiperId) REFERENCES account (id),
+    ADD CONSTRAINT swipe_history_merchandiseId_fk FOREIGN KEY (merchandiseId) REFERENCES merchandise (id);
 
 ALTER TABLE dialog
-    ADD CONSTRAINT dialog_pk PRIMARY KEY (id);
+    ADD CONSTRAINT dialog_pk PRIMARY KEY (id),
+    ADD CONSTRAINT dialog_senderId_fk FOREIGN KEY (senderId) REFERENCES account (id),
+    ADD CONSTRAINT dialog_destinationId_fk FOREIGN KEY (destinationId) REFERENCES account (id);
 
 ALTER TABLE message
-    ADD CONSTRAINT message_pk PRIMARY KEY (id);
+    ADD CONSTRAINT message_pk PRIMARY KEY (id),
+    ADD CONSTRAINT message_senderId_fk FOREIGN KEY (senderId) REFERENCES account (id),
+    ADD CONSTRAINT message_destinationId_fk FOREIGN KEY (destinationId) REFERENCES account (id),
+    ADD CONSTRAINT message_dialogId_fk FOREIGN KEY (dialogId) REFERENCES dialog (id);
 
 ALTER TABLE exchange
-    ADD CONSTRAINT exchange_pk PRIMARY KEY (id);
+    ADD CONSTRAINT exchange_pk PRIMARY KEY (id),
+    ADD CONSTRAINT message_authorId_fk FOREIGN KEY (authorId) REFERENCES account (id),
+    ADD CONSTRAINT exchange_firstMerchandiseId_fk FOREIGN KEY (firstMerchandiseId) REFERENCES merchandise (id),
+    ADD CONSTRAINT exchange_secondMerchandiseId_fk FOREIGN KEY (secondMerchandiseId) REFERENCES merchandise (id);
+
