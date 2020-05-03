@@ -1,14 +1,14 @@
 package ru.kpfu.itis.quailly.egg.domain.model
 
 
-data class SwipeResult(
+data class SwipeHistory(
     val id: Long? = null,
     val accountId: Long,
     val merchandiseId: Long,
-    val swipe: Swipe
+    val direction: SwipeDirection
 )
 
-enum class Swipe {
+enum class SwipeDirection {
     LEFT,
     RIGHT
 }

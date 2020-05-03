@@ -6,4 +6,6 @@ interface AccountRepository : CrudRepository<Account, Long> {
 
     fun findByEmail(email: String): Account?
 
+    fun findByToken(token: String): Account?
+
 }

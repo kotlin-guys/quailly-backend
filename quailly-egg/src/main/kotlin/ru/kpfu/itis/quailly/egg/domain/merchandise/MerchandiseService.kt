@@ -1,17 +1,26 @@
 package ru.kpfu.itis.quailly.egg.domain.merchandise
 
 import org.springframework.stereotype.Service
+import ru.kpfu.itis.quailly.egg.domain.model.Merchandise
 import ru.kpfu.itis.quailly.egg.repository.MerchandiseRepository
 
 @Service
-class MerchandiseService(private val merchandiseRepository: MerchandiseRepository) {
+class MerchandiseService(
+    private val merchandiseRepository: MerchandiseRepository
+) {
 
-    /* fun createMerchandise(merchandiseCreationRequest: MerchandiseCreationRequest) {
-         val newMerchandise = Merchandise(
-             name = merchandiseCreationRequest.name,
-             description = merchandiseCreationRequest.description,
-             author =
-         )
-         merchandiseRepository.save(newMerchandise)
-     }*/
+    fun createMerchandise(
+        merchandiseCreationRequest: MerchandiseCreationRequest,
+        authorId: Long
+    ) {
+        val newMerchandise = Merchandise(
+            name = merchandiseCreationRequest.name,
+            description = merchandiseCreationRequest.description,
+            category = merchandiseCreationRequest.category,
+            authorId = authorId
+        )
+        merchandiseRepository.create(newMerchandise)
+    }
+
+    fun findMerchandises(authorId: Long) = merchandiseRepository.getAllForAuthor(authorId)
 }
