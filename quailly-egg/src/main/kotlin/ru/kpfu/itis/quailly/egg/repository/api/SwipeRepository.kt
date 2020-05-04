@@ -5,6 +5,6 @@ import ru.kpfu.itis.quailly.egg.repository.CreatableRepository
 
 interface SwipeRepository : CreatableRepository<Swipe> {
 
-    fun findSwipeForExchange(merchandiseId: Long, accountId: Long): Swipe?
+    fun findBackSwipeForMerchandise(merchandiseId: Long, accountId: Long): Swipe?
 
 }

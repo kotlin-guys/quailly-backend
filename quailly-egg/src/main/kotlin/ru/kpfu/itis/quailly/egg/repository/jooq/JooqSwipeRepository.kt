@@ -21,7 +21,7 @@ open class JooqSwipeRepository(private val jooq: DSLContext) : SwipeRepository {
             .fetchOne()
             .into(Swipe::class.java)
 
-    override fun findSwipeForExchange(merchandiseId: Long, accountId: Long): Swipe? {
+    override fun findBackSwipeForMerchandise(merchandiseId: Long, accountId: Long): Swipe? {
         return jooq.select().from(SWIPE)
             .join(MERCHANDISE).onKey(SWIPE.MERCHANDISE_ID)
             .where(

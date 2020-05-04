@@ -92,7 +92,8 @@ ALTER TABLE merchandise
 
 ALTER TABLE desired_merchandise_catalog
     ADD CONSTRAINT desired_merchandise_catalog_merchandise_id_fk FOREIGN KEY (merchandise_id) REFERENCES merchandise (id),
-    ADD CONSTRAINT desired_merchandise_catalog_category_id_fk FOREIGN KEY (category_id) REFERENCES merchandise_category (id);
+    ADD CONSTRAINT desired_merchandise_catalog_category_id_fk FOREIGN KEY (category_id) REFERENCES merchandise_category (id),
+    ADD CONSTRAINT desired_merchandise_catalog_merchandise_id_category_id_unique UNIQUE (merchandise_id, category_id);
 
 ALTER TABLE swipe
     ADD CONSTRAINT swipe_pk PRIMARY KEY (id),

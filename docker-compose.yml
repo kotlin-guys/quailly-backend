@@ -19,7 +19,8 @@ services:
     image: postgres:12.2-alpine
     hostname: db-quailly
     volumes:
-      - ./quailly-egg/src/main/resources/db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ./quailly-egg/src/main/resources/db/schema.sql:/docker-entrypoint-initdb.d/0-schema.sql
+      - ./quailly-egg/src/main/resources/db/data.sql:/docker-entrypoint-initdb.d/1-data.sql
     ports:
       - 5432:5432
     environment:

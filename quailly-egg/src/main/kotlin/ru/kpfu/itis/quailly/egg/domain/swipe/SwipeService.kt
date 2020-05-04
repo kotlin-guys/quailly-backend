@@ -22,7 +22,7 @@ class SwipeService(
                 direction = request.direction
             )
         )
-        val swipeBack = swipeRepository.findSwipeForExchange(request.merchandiseId, accountId)
+        val swipeBack = swipeRepository.findBackSwipeForMerchandise(request.merchandiseId, accountId)
         if (swipeBack != null) {
             exchangeRepository.create(
                 Exchange(
