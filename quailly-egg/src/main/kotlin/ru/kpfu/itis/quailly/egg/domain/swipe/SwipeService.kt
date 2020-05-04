@@ -1,6 +1,7 @@
 package ru.kpfu.itis.quailly.egg.domain.swipe
 
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
 import ru.kpfu.itis.quailly.egg.domain.model.Exchange
 import ru.kpfu.itis.quailly.egg.domain.model.ExchangeStatus
 import ru.kpfu.itis.quailly.egg.domain.model.Swipe
@@ -14,7 +15,7 @@ class SwipeService(
     private val exchangeRepository: ExchangeRepository
 ) {
 
-    fun swipe(request: SwipeRequest, accountId: Long): SwipeResult {
+    fun swipe(request: SwipeRequest, accountId: Long): Mono<SwipeResult> {
         swipeRepository.create(
             Swipe(
                 accountId = accountId,
@@ -34,6 +35,6 @@ class SwipeService(
                 )
             )
         }
-        return SwipeResult.Success
+        return Mono.just(SwipeResult.Success)
     }
 }

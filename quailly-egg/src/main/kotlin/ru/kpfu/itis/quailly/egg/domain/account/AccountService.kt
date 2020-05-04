@@ -2,6 +2,7 @@ package ru.kpfu.itis.quailly.egg.domain.account
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
 import ru.kpfu.itis.quailly.egg.domain.model.Account
 import ru.kpfu.itis.quailly.egg.generator.token.TokenGenerator
 import ru.kpfu.itis.quailly.egg.repository.api.AccountRepository
@@ -17,11 +18,10 @@ class AccountService(
     @Value("\${quailly.server.zone-id}")
     private lateinit var zoneId: String
 
-    private fun verifyAccount(accountCreationData: AccountCreationData): Boolean {
-        val accountEmail = accountCreationData.email
-        val account = accountRepository.findByEmail(accountEmail)
-
-        if (account == null) {
+    private fun verifyAccount(accountCreationData: AccountCreationData): Account? {
+        val account = accountRepository.findByEmail(accountCreationData.email)
+        return account ?: run {
+            val now = ZonedDateTime.now(ZoneId.of(zoneId))
             accountRepository.create(
                 Account(
                     email = accountCreationData.email,
@@ -31,16 +31,16 @@ class AccountService(
                     givenName = accountCreationData.givenName,
                     locale = accountCreationData.locale,
                     pictureUrl = accountCreationData.pictureUrl,
-                    registrationDateTime = ZonedDateTime.now(ZoneId.of(zoneId))
+                    registrationDatetime = now.toOffsetDateTime(),
+                    lastVisit = now.toOffsetDateTime()
                 )
             )
         }
-        return account == null
     }
 
-    fun signIn(accountCreationData: AccountCreationData): SignInStatus {
+    fun signIn(accountCreationData: AccountCreationData): Mono<SignInStatus> {
         verifyAccount(accountCreationData)
-        return SignInStatus.Success(tokenGenerator.generate())
+        return Mono.just(SignInStatus.Success(tokenGenerator.generate()))
     }
 }
 

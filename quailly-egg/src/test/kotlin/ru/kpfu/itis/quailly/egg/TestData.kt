@@ -1,10 +1,11 @@
-package ru.kpfu.itis.quailly.egg.repository
+package ru.kpfu.itis.quailly.egg
 
+import ru.kpfu.itis.quailly.egg.domain.account.AccountCreationData
 import ru.kpfu.itis.quailly.egg.domain.model.Account
 import ru.kpfu.itis.quailly.egg.domain.model.Merchandise
 import ru.kpfu.itis.quailly.egg.domain.model.Swipe
 import ru.kpfu.itis.quailly.egg.domain.model.SwipeDirection
-import java.time.ZonedDateTime
+import java.time.OffsetDateTime
 
 fun account(name: String) = Account(
     email = name,
@@ -14,7 +15,8 @@ fun account(name: String) = Account(
     givenName = name,
     locale = "nigeria",
     pictureUrl = "random-$name.png",
-    registrationDateTime = ZonedDateTime.now()
+    registrationDatetime = OffsetDateTime.now(),
+    lastVisit = OffsetDateTime.now()
 )
 
 fun merchandise(name: String, authorId: Long) = Merchandise(
@@ -33,4 +35,14 @@ fun swipe(
     accountId = accountId,
     merchandiseId = merchandiseId,
     direction = direction
+)
+
+fun accountCreationData(name: String) = AccountCreationData(
+    email = name,
+    emailVerified = true,
+    name = name,
+    pictureUrl = "pict",
+    locale = "en",
+    familyName = name,
+    givenName = name
 )

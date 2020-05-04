@@ -1,28 +1,24 @@
 package ru.kpfu.itis.quailly.egg.security.token
 
-import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.context.ReactiveSecurityContextHolder.getContext
 import org.springframework.stereotype.Component
-import org.springframework.web.filter.OncePerRequestFilter
-import javax.servlet.FilterChain
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import org.springframework.web.server.ServerWebExchange
+import org.springframework.web.server.WebFilter
+import org.springframework.web.server.WebFilterChain
+import reactor.core.publisher.Mono
 
 @Component
-class TokenAuthFilter : OncePerRequestFilter() {
+class TokenAuthFilter : WebFilter {
 
     companion object {
         private const val AUTHORIZATION_HEADER = "Authorization"
     }
 
-    override fun doFilterInternal(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        filterChain: FilterChain
-    ) {
-        val authorization = request.getHeader(AUTHORIZATION_HEADER)
-        if (authorization != null) {
-            SecurityContextHolder.getContext().authentication = TokenAuthentication(authorization)
-        }
-        filterChain.doFilter(request, response)
+    override fun filter(
+        exchange: ServerWebExchange,
+        chain: WebFilterChain
+    ): Mono<Void> = with(exchange.request.headers[AUTHORIZATION_HEADER]) {
+        getContext().map { it.authentication = this?.let { TokenAuthentication(it.first()) } }
+        chain.filter(exchange)
     }
 }

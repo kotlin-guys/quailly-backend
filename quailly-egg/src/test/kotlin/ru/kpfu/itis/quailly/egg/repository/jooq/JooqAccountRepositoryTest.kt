@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import ru.kpfu.itis.quailly.egg.domain.model.Account
-import java.time.ZonedDateTime
+import ru.kpfu.itis.quailly.egg.account
 
 @SpringBootTest
 internal class JooqAccountRepositoryTest {
@@ -15,7 +14,7 @@ internal class JooqAccountRepositoryTest {
 
     @Test
     fun `test create`() {
-        val account = Account(email = "", registrationDateTime = ZonedDateTime.now(), familyName = "", firstName = "")
+        val account = account("emil")
         val saved = jooqAccountRepository.create(account)
         assertEquals(account.email, saved.email)
     }

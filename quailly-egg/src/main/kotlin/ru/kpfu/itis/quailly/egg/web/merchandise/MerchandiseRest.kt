@@ -17,7 +17,7 @@ class MerchandiseRest(
     fun merchandises(authentication: TokenAuthentication) =
         merchandiseService.findMerchandises(authentication.principal)
 
-    @GetMapping
+    @GetMapping("/next")
     fun nextMerchandises(
         @RequestParam limit: Long,
         authentication: TokenAuthentication
@@ -27,8 +27,6 @@ class MerchandiseRest(
     fun createMerchandise(
         @RequestBody request: MerchandiseCreationRequest,
         authentication: TokenAuthentication
-    ) {
-        merchandiseService.createMerchandise(request, authentication.principal)
-    }
+    ) = merchandiseService.createMerchandise(request, authentication.principal)
 
 }

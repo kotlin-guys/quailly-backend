@@ -1,6 +1,6 @@
 package ru.kpfu.itis.quailly.egg.domain.model
 
-import java.time.ZonedDateTime
+import java.time.OffsetDateTime
 
 data class Account(
     val id: Long? = null,
@@ -14,8 +14,8 @@ data class Account(
     val givenName: String? = null,
     val password: String? = null,
     val phoneNumber: String? = null,
-    val lastVisit: ZonedDateTime? = null,
-    val registrationDateTime: ZonedDateTime,
+    val lastVisit: OffsetDateTime,
+    val registrationDatetime: OffsetDateTime,
     val token: String? = null,
     val merchandises: List<Merchandise>? = null
 )

@@ -24,13 +24,13 @@ dependencies {
     implementation(Libs.kotlinJdk8)
     runtimeOnly(Libs.jaxb)
 
-    implementation(Libs.springDoc)
+    jooqGeneratorRuntime(Libs.postgres)
     implementation(Libs.jooqCodegen)
     implementation(Libs.jooqMeta)
     implementation(Libs.swagger)
     implementation(Libs.swaggerUi)
+    implementation(Libs.swaggerWebflux)
     implementation(Libs.jacksonKotlin)
-    jooqGeneratorRuntime(Libs.postgres)
 
     implementation(Libs.springWebflux)
     implementation(Libs.springSecurity)

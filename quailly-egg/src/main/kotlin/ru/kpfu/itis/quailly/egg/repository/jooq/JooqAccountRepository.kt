@@ -37,8 +37,8 @@ open class JooqAccountRepository(private val jooq: DSLContext) : AccountReposito
                 entity.locale,
                 entity.password,
                 entity.phoneNumber,
-                entity.lastVisit?.toOffsetDateTime(),
-                entity.registrationDateTime.toOffsetDateTime(),
+                entity.lastVisit,
+                entity.registrationDatetime,
                 entity.token
             )
             .returning()
@@ -50,12 +50,12 @@ open class JooqAccountRepository(private val jooq: DSLContext) : AccountReposito
         jooq.select().from(ACCOUNT)
             .where(ACCOUNT.EMAIL.eq(email))
             .fetchOne()
-            .into(Account::class.java)
+            ?.let { it.into(Account::class.java) }
 
     override fun findByToken(token: String): Account? =
         jooq.select().from(ACCOUNT)
             .where(ACCOUNT.TOKEN.eq(token))
             .fetchOne()
-            .into(Account::class.java)
+            ?.let { it.into(Account::class.java) }
 
 }

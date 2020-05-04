@@ -3,10 +3,11 @@ package ru.kpfu.itis.quailly.egg.repository.jooq
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import ru.kpfu.itis.quailly.egg.repository.account
-import ru.kpfu.itis.quailly.egg.repository.merchandise
+import ru.kpfu.itis.quailly.egg.account
+import ru.kpfu.itis.quailly.egg.merchandise
 
-@SpringBootTest
+
+@SpringBootTest(properties = ["SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/quailly"])
 internal class JooqSwipeRepositoryTest {
 
     @Autowired

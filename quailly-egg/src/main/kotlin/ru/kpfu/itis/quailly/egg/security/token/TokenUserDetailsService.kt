@@ -1,13 +1,18 @@
 package ru.kpfu.itis.quailly.egg.security.token
 
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
 import ru.kpfu.itis.quailly.egg.repository.api.AccountRepository
 
-class TokenUserDetailsService(private val accountRepository: AccountRepository) : UserDetailsService {
+@Component
+class TokenUserDetailsService(
+    private val accountRepository: AccountRepository
+) : ReactiveUserDetailsService {
 
-    override fun loadUserByUsername(token: String): UserDetails? {
-        val account = accountRepository.findByToken(token) ?: return null
-        return TokenUserDetails(account)
+    override fun findByUsername(token: String): Mono<UserDetails> {
+        val account = accountRepository.findByToken(token)
+        return Mono.justOrEmpty(account?.let { TokenUserDetails(account) })
     }
 }
