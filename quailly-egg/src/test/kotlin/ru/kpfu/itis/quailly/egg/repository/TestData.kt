@@ -21,7 +21,8 @@ fun merchandise(name: String, authorId: Long) = Merchandise(
     name = name,
     description = "the best merchandise ever",
     categoryId = 1,
-    authorId = authorId
+    authorId = authorId,
+    desiredCategoryIds = listOf(1, 2, 3)
 )
 
 fun swipe(

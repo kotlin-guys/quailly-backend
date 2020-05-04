@@ -20,9 +20,7 @@ internal class JooqSwipeRepositoryTest {
 
     @Test
     fun `test find back swipes`() {
-        val emil = accountRepository.create(account("emil"))
         val baton = accountRepository.create(account("baton"))
-        val emilMerchandises = ""
         merchandiseRepository.create(merchandise("MAC-13", baton.id!!))
         merchandiseRepository.create(merchandise("qiwi", baton.id!!))
         merchandiseRepository.create(merchandise("kolonka", baton.id!!))

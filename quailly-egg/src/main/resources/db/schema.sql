@@ -25,7 +25,8 @@ CREATE TABLE merchandise
     name        text   NOT NULL,
     description text   NOT NULL,
     category_id bigint NOT NULL,
-    author_id   bigint NOT NULL
+    author_id   bigint NOT NULL,
+    avatar_url  text
 );
 
 CREATE TYPE swipe_direction AS ENUM ('left', 'right');

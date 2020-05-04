@@ -17,7 +17,8 @@ class MerchandiseService(
             name = merchandiseCreationRequest.name,
             description = merchandiseCreationRequest.description,
             categoryId = merchandiseCreationRequest.categoryId,
-            authorId = authorId
+            authorId = authorId,
+            desiredCategoryIds = merchandiseCreationRequest.desiredCategoryIds
         )
         merchandiseRepository.create(newMerchandise)
     }

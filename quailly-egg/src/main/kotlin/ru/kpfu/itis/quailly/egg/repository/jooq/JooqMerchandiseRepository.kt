@@ -1,6 +1,7 @@
 package ru.kpfu.itis.quailly.egg.repository.jooq
 
 import org.jooq.DSLContext
+import org.jooq.impl.DSL
 import org.springframework.stereotype.Repository
 import ru.kpfu.itis.quailly.egg.domain.model.Merchandise
 import ru.kpfu.itis.quailly.egg.repository.api.MerchandiseRepository
@@ -12,12 +13,30 @@ import ru.kpfu.itis.quailly.egg.repository.jooq.schema.tables.Merchandise.MERCHA
 open class JooqMerchandiseRepository(private val jooq: DSLContext) : MerchandiseRepository {
 
     override fun create(entity: Merchandise): Merchandise =
-        jooq.insertInto(MERCHANDISE)
-            .columns(MERCHANDISE.NAME, MERCHANDISE.DESCRIPTION, MERCHANDISE.CATEGORY_ID, MERCHANDISE.AUTHOR_ID)
-            .values(entity.name, entity.description, entity.categoryId, entity.authorId)
-            .returning()
-            .fetchOne()
-            .into(Merchandise::class.java)
+        jooq.transactionResult { configuration ->
+            val context = DSL.using(configuration)
+
+            entity.desiredCategoryIds.forEach {
+                context.insertInto(DESIRED_MERCHANDISE_CATALOG)
+                    .columns(DESIRED_MERCHANDISE_CATALOG.MERCHANDISE_ID, DESIRED_MERCHANDISE_CATALOG.CATEGORY_ID)
+                    .values(entity.id, it)
+            }
+            context.insertInto(MERCHANDISE)
+                .columns(MERCHANDISE.NAME, MERCHANDISE.DESCRIPTION, MERCHANDISE.CATEGORY_ID, MERCHANDISE.AUTHOR_ID)
+                .values(entity.name, entity.description, entity.categoryId, entity.authorId)
+                .returning()
+                .fetchOne()
+                .map {
+                    Merchandise(
+                        id = it.get(MERCHANDISE.ID),
+                        name = it.get(MERCHANDISE.NAME),
+                        description = it.get(MERCHANDISE.DESCRIPTION),
+                        categoryId = it.get(MERCHANDISE.CATEGORY_ID),
+                        authorId = it.get(MERCHANDISE.AUTHOR_ID),
+                        desiredCategoryIds = entity.desiredCategoryIds
+                    )
+                }
+        }
 
     override fun getAllForAuthor(authorId: Long): List<Merchandise> {
         return jooq.select().from(MERCHANDISE)

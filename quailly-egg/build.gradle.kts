@@ -32,7 +32,7 @@ dependencies {
     implementation(Libs.jacksonKotlin)
     jooqGeneratorRuntime(Libs.postgres)
 
-    implementation(Libs.springWeb)
+    implementation(Libs.springWebflux)
     implementation(Libs.springSecurity)
 
     implementation(Libs.springJooq)

@@ -4,10 +4,15 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import ru.kpfu.itis.quailly.egg.security.token.TokenAuthFilter
+import ru.kpfu.itis.quailly.egg.security.token.TokenAuthenticationProvider
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
-open class SecurityConfiguration : WebSecurityConfigurerAdapter() {
+open class SecurityConfiguration(
+    private val securityFilter: TokenAuthFilter,
+    private val authenticationProvider: TokenAuthenticationProvider
+) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
@@ -17,5 +22,7 @@ open class SecurityConfiguration : WebSecurityConfigurerAdapter() {
             .sessionManagement().disable()
             .csrf().disable()
             .formLogin().disable()
+            .authenticationProvider(authenticationProvider)
+            .addFilter(securityFilter)
     }
 }

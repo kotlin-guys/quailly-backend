@@ -3,7 +3,9 @@ package ru.kpfu.itis.quailly.egg.security.token
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.stereotype.Component
 
+@Component
 class TokenAuthenticationProvider(private val userDetailsService: UserDetailsService) : AuthenticationProvider {
 
     override fun authenticate(authentication: Authentication): Authentication {

@@ -1,6 +1,6 @@
 package ru.kpfu.itis.quailly.egg.domain.account
 
-data class AccountVerificationData(
+data class AccountCreationData(
     val email: String,
     val emailVerified: Boolean,
     val name: String,

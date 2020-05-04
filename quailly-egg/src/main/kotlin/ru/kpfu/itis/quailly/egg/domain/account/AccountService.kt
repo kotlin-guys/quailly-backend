@@ -17,20 +17,20 @@ class AccountService(
     @Value("\${quailly.server.zone-id}")
     private lateinit var zoneId: String
 
-    private fun verifyAccount(accountVerificationData: AccountVerificationData): Boolean {
-        val accountEmail = accountVerificationData.email
+    private fun verifyAccount(accountCreationData: AccountCreationData): Boolean {
+        val accountEmail = accountCreationData.email
         val account = accountRepository.findByEmail(accountEmail)
 
         if (account == null) {
             accountRepository.create(
                 Account(
-                    email = accountVerificationData.email,
-                    emailVerified = accountVerificationData.emailVerified,
-                    firstName = accountVerificationData.name,
-                    familyName = accountVerificationData.familyName,
-                    givenName = accountVerificationData.givenName,
-                    locale = accountVerificationData.locale,
-                    pictureUrl = accountVerificationData.pictureUrl,
+                    email = accountCreationData.email,
+                    emailVerified = accountCreationData.emailVerified,
+                    firstName = accountCreationData.name,
+                    familyName = accountCreationData.familyName,
+                    givenName = accountCreationData.givenName,
+                    locale = accountCreationData.locale,
+                    pictureUrl = accountCreationData.pictureUrl,
                     registrationDateTime = ZonedDateTime.now(ZoneId.of(zoneId))
                 )
             )
@@ -38,8 +38,8 @@ class AccountService(
         return account == null
     }
 
-    fun signIn(accountVerificationData: AccountVerificationData): SignInStatus {
-        verifyAccount(accountVerificationData)
+    fun signIn(accountCreationData: AccountCreationData): SignInStatus {
+        verifyAccount(accountCreationData)
         return SignInStatus.Success(tokenGenerator.generate())
     }
 }
