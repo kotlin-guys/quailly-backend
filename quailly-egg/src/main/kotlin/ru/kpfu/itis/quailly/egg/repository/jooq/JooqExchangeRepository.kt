@@ -3,7 +3,7 @@ package ru.kpfu.itis.quailly.egg.repository.jooq
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import ru.kpfu.itis.quailly.egg.domain.model.Exchange
-import ru.kpfu.itis.quailly.egg.repository.ExchangeRepository
+import ru.kpfu.itis.quailly.egg.repository.api.ExchangeRepository
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables.EXCHANGE
 
 @Repository
@@ -28,19 +28,4 @@ open class JooqExchangeRepository(private val jooq: DSLContext) : ExchangeReposi
             .fetchOne()
             .into(Exchange::class.java)
 
-    override fun getById(id: Long): Exchange {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAll(): Iterable<Exchange> {
-        TODO("Not yet implemented")
-    }
-
-    override fun update(entity: Exchange): Exchange {
-        TODO("Not yet implemented")
-    }
-
-    override fun delete(entity: Exchange) {
-        TODO("Not yet implemented")
-    }
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import ru.kpfu.itis.quailly.egg.domain.model.Account
 import ru.kpfu.itis.quailly.egg.generator.token.TokenGenerator
-import ru.kpfu.itis.quailly.egg.repository.AccountRepository
+import ru.kpfu.itis.quailly.egg.repository.api.AccountRepository
 import java.time.ZoneId
 import java.time.ZonedDateTime
 

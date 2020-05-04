@@ -3,7 +3,7 @@ package ru.kpfu.itis.quailly.egg.repository.jooq
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import ru.kpfu.itis.quailly.egg.domain.model.Merchandise
-import ru.kpfu.itis.quailly.egg.repository.MerchandiseRepository
+import ru.kpfu.itis.quailly.egg.repository.api.MerchandiseRepository
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables.DESIRED_MERCHANDISE_CATALOG
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables.SWIPE
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.tables.Merchandise.MERCHANDISE
@@ -18,22 +18,6 @@ open class JooqMerchandiseRepository(private val jooq: DSLContext) : Merchandise
             .returning()
             .fetchOne()
             .into(Merchandise::class.java)
-
-    override fun getById(id: Long): Merchandise {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAll(): Iterable<Merchandise> {
-        TODO("Not yet implemented")
-    }
-
-    override fun update(entity: Merchandise): Merchandise {
-        TODO("Not yet implemented")
-    }
-
-    override fun delete(entity: Merchandise) {
-        TODO("Not yet implemented")
-    }
 
     override fun getAllForAuthor(authorId: Long): List<Merchandise> {
         return jooq.select().from(MERCHANDISE)

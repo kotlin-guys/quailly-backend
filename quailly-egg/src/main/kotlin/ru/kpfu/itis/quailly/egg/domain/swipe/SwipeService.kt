@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service
 import ru.kpfu.itis.quailly.egg.domain.model.Exchange
 import ru.kpfu.itis.quailly.egg.domain.model.ExchangeStatus
 import ru.kpfu.itis.quailly.egg.domain.model.Swipe
-import ru.kpfu.itis.quailly.egg.repository.ExchangeRepository
-import ru.kpfu.itis.quailly.egg.repository.SwipeRepository
+import ru.kpfu.itis.quailly.egg.repository.api.ExchangeRepository
+import ru.kpfu.itis.quailly.egg.repository.api.SwipeRepository
 import java.time.ZonedDateTime
 
 @Service

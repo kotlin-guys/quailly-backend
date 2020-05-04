@@ -2,7 +2,7 @@ package ru.kpfu.itis.quailly.egg.security.token
 
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
-import ru.kpfu.itis.quailly.egg.repository.AccountRepository
+import ru.kpfu.itis.quailly.egg.repository.api.AccountRepository
 
 class TokenUserDetailsService(private val accountRepository: AccountRepository) : UserDetailsService {
 

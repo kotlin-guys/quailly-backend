@@ -2,8 +2,8 @@ package ru.kpfu.itis.quailly.egg.domain.merchandise
 
 import org.springframework.stereotype.Service
 import ru.kpfu.itis.quailly.egg.domain.model.Merchandise
-import ru.kpfu.itis.quailly.egg.repository.MerchandiseRepository
-import ru.kpfu.itis.quailly.egg.repository.SwipeRepository
+import ru.kpfu.itis.quailly.egg.repository.api.MerchandiseRepository
+import ru.kpfu.itis.quailly.egg.repository.api.SwipeRepository
 
 @Service
 class MerchandiseSwipingService(

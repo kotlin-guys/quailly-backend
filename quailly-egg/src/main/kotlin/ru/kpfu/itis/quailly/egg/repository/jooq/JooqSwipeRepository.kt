@@ -3,10 +3,12 @@ package ru.kpfu.itis.quailly.egg.repository.jooq
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import ru.kpfu.itis.quailly.egg.domain.model.Swipe
-import ru.kpfu.itis.quailly.egg.repository.SwipeRepository
+import ru.kpfu.itis.quailly.egg.repository.api.SwipeRepository
+import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables.MERCHANDISE
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables.SWIPE
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.enums.SwipeDirection
+import ru.kpfu.itis.quailly.egg.repository.jooq.schema.tables.Merchandise
 
 @Repository
 open class JooqSwipeRepository(private val jooq: DSLContext) : SwipeRepository {
@@ -19,28 +21,12 @@ open class JooqSwipeRepository(private val jooq: DSLContext) : SwipeRepository {
             .fetchOne()
             .into(Swipe::class.java)
 
-    override fun getById(id: Long): Swipe {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAll(): Iterable<Swipe> {
-        TODO("Not yet implemented")
-    }
-
-    override fun update(entity: Swipe): Swipe {
-        TODO("Not yet implemented")
-    }
-
-    override fun delete(entity: Swipe) {
-        TODO("Not yet implemented")
-    }
-
     override fun findSwipeForExchange(merchandiseId: Long, accountId: Long): Swipe? {
         return jooq.select().from(SWIPE)
             .join(MERCHANDISE).onKey(SWIPE.MERCHANDISE_ID)
             .where(
                 MERCHANDISE.ID.`in`(
-                    jooq.select(MERCHANDISE.ID).from(SWIPE)
+                    jooq.selectDistinct(MERCHANDISE.ID).from(SWIPE)
                         .join(MERCHANDISE).onKey(SWIPE.MERCHANDISE_ID)
                         .where(
                             MERCHANDISE.AUTHOR_ID.eq(
@@ -48,7 +34,14 @@ open class JooqSwipeRepository(private val jooq: DSLContext) : SwipeRepository {
                                     .where(MERCHANDISE.ID.eq(merchandiseId))
                             )
                         )
-
+                        .and(
+                            MERCHANDISE.CATEGORY_ID.`in`(
+                                jooq.selectDistinct(Tables.DESIRED_MERCHANDISE_CATALOG.CATEGORY_ID)
+                                    .from(Merchandise.MERCHANDISE)
+                                    .join(Tables.DESIRED_MERCHANDISE_CATALOG).onKey(Merchandise.MERCHANDISE.CATEGORY_ID)
+                                    .where(MERCHANDISE.AUTHOR_ID.equal(accountId))
+                            )
+                        )
                 )
             )
             .fetchOne()
