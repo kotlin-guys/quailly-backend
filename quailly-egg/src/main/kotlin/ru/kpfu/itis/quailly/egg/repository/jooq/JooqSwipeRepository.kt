@@ -4,6 +4,7 @@ import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 import ru.kpfu.itis.quailly.egg.domain.model.Swipe
 import ru.kpfu.itis.quailly.egg.repository.SwipeRepository
+import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables.MERCHANDISE
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables.SWIPE
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.enums.SwipeDirection
 
@@ -32,5 +33,25 @@ open class JooqSwipeRepository(private val jooq: DSLContext) : SwipeRepository {
 
     override fun delete(entity: Swipe) {
         TODO("Not yet implemented")
+    }
+
+    override fun findSwipeForExchange(merchandiseId: Long, accountId: Long): Swipe? {
+        return jooq.select().from(SWIPE)
+            .join(MERCHANDISE).onKey(SWIPE.MERCHANDISE_ID)
+            .where(
+                MERCHANDISE.ID.`in`(
+                    jooq.select(MERCHANDISE.ID).from(SWIPE)
+                        .join(MERCHANDISE).onKey(SWIPE.MERCHANDISE_ID)
+                        .where(
+                            MERCHANDISE.AUTHOR_ID.eq(
+                                jooq.select(MERCHANDISE.AUTHOR_ID).from(MERCHANDISE)
+                                    .where(MERCHANDISE.ID.eq(merchandiseId))
+                            )
+                        )
+
+                )
+            )
+            .fetchOne()
+            .into(Swipe::class.java)
     }
 }

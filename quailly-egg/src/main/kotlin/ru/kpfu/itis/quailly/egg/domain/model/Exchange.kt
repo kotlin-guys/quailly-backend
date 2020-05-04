@@ -5,10 +5,10 @@ import java.time.ZonedDateTime
 data class Exchange(
     val id: Long? = null,
     val publicationDateTime: ZonedDateTime,
+    val authorId: Long,
     val exchangeStatus: ExchangeStatus,
-    val firstMerchandise: Merchandise,
-    val secondMerchandise: Merchandise,
-    val dialog: Dialog
+    val firstMerchandiseId: Long,
+    val secondMerchandiseId: Long
 )
 
 enum class ExchangeStatus {

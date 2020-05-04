@@ -5,4 +5,6 @@ import ru.kpfu.itis.quailly.egg.domain.model.Merchandise
 interface MerchandiseRepository : CrudRepository<Merchandise, Long> {
 
     fun getAllForAuthor(authorId: Long): List<Merchandise>
+
+    fun getNextMerchandisesForReview(limit: Long, authorId: Long): List<Merchandise>
 }

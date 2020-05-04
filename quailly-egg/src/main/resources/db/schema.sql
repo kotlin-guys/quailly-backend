@@ -3,7 +3,7 @@ CREATE SCHEMA public;
 
 CREATE TABLE account
 (
-    id                    serial,
+    id                    bigserial,
     username              text,
     email                 text        NOT NULL,
     email_verified        boolean,
@@ -21,7 +21,7 @@ CREATE TABLE account
 
 CREATE TABLE merchandise
 (
-    id          serial,
+    id          bigserial,
     name        text   NOT NULL,
     description text   NOT NULL,
     category_id bigint NOT NULL,
@@ -32,7 +32,7 @@ CREATE TYPE swipe_direction AS ENUM ('left', 'right');
 
 CREATE TABLE swipe
 (
-    id             serial,
+    id             bigserial,
     swiper_id      bigint          NOT NULL,
     merchandise_id bigint          NOT NULL,
     direction      swipe_direction NOT NULL
@@ -40,14 +40,14 @@ CREATE TABLE swipe
 
 CREATE TABLE dialog
 (
-    id             serial,
+    id             bigserial,
     sender_id      bigint NOT NULL,
     destination_id bigint NOT NULL
 );
 
 CREATE TABLE message
 (
-    id             serial,
+    id             bigserial,
     dialog_id      bigint NOT NULL,
     sender_id      bigint NOT NULL,
     destination_id bigint NOT NULL,
@@ -56,17 +56,17 @@ CREATE TABLE message
 
 CREATE TABLE exchange
 (
-    id                    serial,
-    author_id             bigint NOT NULL,
-    first_merchandise_id  bigint NOT NULL,
-    second_merchandise_id bigint NOT NULL,
-    publication_date_time bigint NOT NULL,
-    status                text   NOT NULL
+    id                    bigserial,
+    initiator_id          bigint      NOT NULL,
+    first_merchandise_id  bigint      NOT NULL,
+    second_merchandise_id bigint      NOT NULL,
+    publication_date_time timestamptz NOT NULL,
+    status                text        NOT NULL
 );
 
 CREATE TABLE merchandise_category
 (
-    id   serial,
+    id   bigserial,
     name text NOT NULL
 );
 
@@ -112,7 +112,7 @@ ALTER TABLE message
 
 ALTER TABLE exchange
     ADD CONSTRAINT exchange_pk PRIMARY KEY (id),
-    ADD CONSTRAINT message_author_id_fk FOREIGN KEY (author_id) REFERENCES account (id),
+    ADD CONSTRAINT message_author_id_fk FOREIGN KEY (initiator_id) REFERENCES account (id),
     ADD CONSTRAINT exchange_first_merchandise_id_fk FOREIGN KEY (first_merchandise_id) REFERENCES merchandise (id),
     ADD CONSTRAINT exchange_second_merchandise_id_fk FOREIGN KEY (second_merchandise_id) REFERENCES merchandise (id);
 

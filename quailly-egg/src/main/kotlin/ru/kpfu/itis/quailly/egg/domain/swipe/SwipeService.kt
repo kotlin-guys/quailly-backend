@@ -1,12 +1,18 @@
 package ru.kpfu.itis.quailly.egg.domain.swipe
 
 import org.springframework.stereotype.Service
+import ru.kpfu.itis.quailly.egg.domain.model.Exchange
+import ru.kpfu.itis.quailly.egg.domain.model.ExchangeStatus
 import ru.kpfu.itis.quailly.egg.domain.model.Swipe
+import ru.kpfu.itis.quailly.egg.repository.ExchangeRepository
 import ru.kpfu.itis.quailly.egg.repository.SwipeRepository
+import java.time.ZonedDateTime
 
 @Service
-class SwipeService(private val swipeRepository: SwipeRepository) {
-
+class SwipeService(
+    private val swipeRepository: SwipeRepository,
+    private val exchangeRepository: ExchangeRepository
+) {
 
     fun swipe(request: SwipeRequest, accountId: Long): SwipeResult {
         swipeRepository.create(
@@ -16,7 +22,18 @@ class SwipeService(private val swipeRepository: SwipeRepository) {
                 direction = request.direction
             )
         )
-        swipeRepository.getById(request.merchandiseId)
+        val swipeBack = swipeRepository.findSwipeForExchange(request.merchandiseId, accountId)
+        if (swipeBack != null) {
+            exchangeRepository.create(
+                Exchange(
+                    publicationDateTime = ZonedDateTime.now(),
+                    authorId = accountId,
+                    exchangeStatus = ExchangeStatus.COMMUNICATION_PENDING,
+                    firstMerchandiseId = swipeBack.merchandiseId,
+                    secondMerchandiseId = request.merchandiseId
+                )
+            )
+        }
         return SwipeResult.Success
     }
 }
