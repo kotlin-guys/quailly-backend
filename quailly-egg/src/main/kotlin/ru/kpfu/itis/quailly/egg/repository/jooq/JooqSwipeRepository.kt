@@ -16,7 +16,11 @@ open class JooqSwipeRepository(private val jooq: DSLContext) : SwipeRepository {
     override fun create(entity: Swipe): Swipe =
         jooq.insertInto(SWIPE)
             .columns(SWIPE.SWIPER_ID, SWIPE.MERCHANDISE_ID, SWIPE.DIRECTION)
-            .values(entity.accountId, entity.merchandiseId, SwipeDirection.valueOf(entity.direction.name))
+            .values(
+                entity.accountId,
+                entity.merchandiseId,
+                SwipeDirection.valueOf(entity.direction.name)
+            )
             .returning()
             .fetchOne()
             .into(Swipe::class.java)
@@ -45,6 +49,6 @@ open class JooqSwipeRepository(private val jooq: DSLContext) : SwipeRepository {
                 )
             )
             .fetchOne()
-            .into(Swipe::class.java)
+            ?.let { it.into(Swipe::class.java) }
     }
 }

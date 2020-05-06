@@ -5,7 +5,7 @@ import java.time.ZonedDateTime
 data class Exchange(
     val id: Long? = null,
     val publicationDateTime: ZonedDateTime,
-    val authorId: Long,
+    val initiatorId: Long,
     val exchangeStatus: ExchangeStatus,
     val firstMerchandiseId: Long,
     val secondMerchandiseId: Long

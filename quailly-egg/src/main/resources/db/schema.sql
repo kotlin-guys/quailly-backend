@@ -29,7 +29,7 @@ CREATE TABLE merchandise
     avatar_url  text
 );
 
-CREATE TYPE swipe_direction AS ENUM ('left', 'right');
+CREATE TYPE swipe_direction AS ENUM ('LEFT', 'RIGHT');
 
 CREATE TABLE swipe
 (
@@ -55,14 +55,16 @@ CREATE TABLE message
     content        text   NOT NULL
 );
 
+CREATE TYPE exchange_status AS ENUM ('COMMUNICATION_PENDING', 'SUCCESS', 'DECLINED');
+
 CREATE TABLE exchange
 (
     id                    bigserial,
-    initiator_id          bigint      NOT NULL,
-    first_merchandise_id  bigint      NOT NULL,
-    second_merchandise_id bigint      NOT NULL,
-    publication_date_time timestamptz NOT NULL,
-    status                text        NOT NULL
+    initiator_id          bigint          NOT NULL,
+    first_merchandise_id  bigint          NOT NULL,
+    second_merchandise_id bigint          NOT NULL,
+    publication_date_time timestamptz     NOT NULL,
+    exchange_status       exchange_status NOT NULL
 );
 
 CREATE TABLE merchandise_category

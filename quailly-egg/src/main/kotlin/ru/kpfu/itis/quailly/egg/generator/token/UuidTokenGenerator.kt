@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class UuidTokenGenerator : TokenGenerator {
+class UuidTokenGenerator(private val tokenPrefix: String = "Bearer ") : TokenGenerator {
 
-    override fun generate() = UUID.randomUUID().toString()
+    override fun generate() = tokenPrefix + UUID.randomUUID().toString()
 
 }

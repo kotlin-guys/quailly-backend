@@ -28,7 +28,7 @@ class SwipeService(
             exchangeRepository.create(
                 Exchange(
                     publicationDateTime = ZonedDateTime.now(),
-                    authorId = accountId,
+                    initiatorId = accountId,
                     exchangeStatus = ExchangeStatus.COMMUNICATION_PENDING,
                     firstMerchandiseId = swipeBack.merchandiseId,
                     secondMerchandiseId = request.merchandiseId

@@ -18,7 +18,7 @@ class AccountService(
     @Value("\${quailly.server.zone-id}")
     private lateinit var zoneId: String
 
-    private fun verifyAccount(accountCreationData: AccountCreationData): Account? {
+    private fun verifyAccount(accountCreationData: AccountCreationData): Account {
         val account = accountRepository.findByEmail(accountCreationData.email)
         return account ?: run {
             val now = ZonedDateTime.now(ZoneId.of(zoneId))
@@ -32,15 +32,20 @@ class AccountService(
                     locale = accountCreationData.locale,
                     pictureUrl = accountCreationData.pictureUrl,
                     registrationDatetime = now.toOffsetDateTime(),
-                    lastVisit = now.toOffsetDateTime()
+                    lastVisit = now.toOffsetDateTime(),
+                    token = tokenGenerator.generate()
                 )
             )
         }
     }
 
     fun signIn(accountCreationData: AccountCreationData): Mono<SignInStatus> {
-        verifyAccount(accountCreationData)
-        return Mono.just(SignInStatus.Success(tokenGenerator.generate()))
+        return Mono.just(
+            when (val token = verifyAccount(accountCreationData).token) {
+                null -> SignInStatus.Fail("Token is null")
+                else -> SignInStatus.Success(token)
+            }
+        )
     }
 }
 

@@ -7,8 +7,8 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.reactive.server.WebTestClient
 import ru.kpfu.itis.quailly.egg.accountCreationData
-import ru.kpfu.itis.quailly.egg.domain.account.AccountCreationData
 import ru.kpfu.itis.quailly.egg.repository.api.AccountRepository
+import ru.kpfu.itis.quailly.egg.retrieveToken
 
 @SpringBootTest(properties = ["SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/quailly"])
 @AutoConfigureWebTestClient
@@ -23,7 +23,7 @@ internal class AccountCreationIT {
     @Test
     fun `account created`() {
         val data = accountCreationData("yakuza")
-        tokenRetrieved(data)
+        testClient.retrieveToken(data)
 
         val createdAccount = accountRepository.findByEmail(data.email)!!
         assertEquals(createdAccount.email, data.email)
@@ -37,8 +37,8 @@ internal class AccountCreationIT {
     @Test
     fun `signed in`() {
         val data = accountCreationData("yakuza")
-        tokenRetrieved(data)
-        tokenRetrieved(data)
+        testClient.retrieveToken(data)
+        testClient.retrieveToken(data)
 
         val createdAccount = accountRepository.findByEmail(data.email)!!
         assertEquals(createdAccount.email, data.email)
@@ -49,12 +49,5 @@ internal class AccountCreationIT {
         assertEquals(createdAccount.givenName, data.givenName)
     }
 
-    private fun tokenRetrieved(data: AccountCreationData): WebTestClient.BodyContentSpec =
-        testClient.post()
-            .uri("/accounts")
-            .bodyValue(data)
-            .exchange()
-            .expectStatus().isOk
-            .expectBody()
-            .jsonPath("$.token").exists()
+
 }

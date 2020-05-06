@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository
 import ru.kpfu.itis.quailly.egg.domain.model.Exchange
 import ru.kpfu.itis.quailly.egg.repository.api.ExchangeRepository
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables.EXCHANGE
+import ru.kpfu.itis.quailly.egg.repository.jooq.schema.enums.ExchangeStatus
+import ru.kpfu.itis.quailly.egg.repository.jooq.schema.tables.Merchandise.MERCHANDISE
 
 @Repository
 open class JooqExchangeRepository(private val jooq: DSLContext) : ExchangeRepository {
@@ -16,16 +18,31 @@ open class JooqExchangeRepository(private val jooq: DSLContext) : ExchangeReposi
                 EXCHANGE.FIRST_MERCHANDISE_ID,
                 EXCHANGE.SECOND_MERCHANDISE_ID,
                 EXCHANGE.PUBLICATION_DATE_TIME,
-                EXCHANGE.STATUS
+                EXCHANGE.EXCHANGE_STATUS
             ).values(
-                entity.authorId,
+                entity.initiatorId,
                 entity.firstMerchandiseId,
                 entity.secondMerchandiseId,
                 entity.publicationDateTime.toOffsetDateTime(),
-                entity.exchangeStatus.name
+                ExchangeStatus.valueOf(entity.exchangeStatus.name)
             )
             .returning()
             .fetchOne()
             .into(Exchange::class.java)
+
+    override fun findExchangesForAccount(accountId: Long): List<Exchange> {
+        val first = MERCHANDISE.`as`("first");
+        val second = MERCHANDISE.`as`("second");
+        return jooq
+            .select()
+            .from(EXCHANGE)
+            .join(first)
+            .on(first.ID.eq(EXCHANGE.FIRST_MERCHANDISE_ID))
+            .join(second)
+            .on(second.ID.eq(EXCHANGE.SECOND_MERCHANDISE_ID))
+            .where((first.AUTHOR_ID.eq(accountId).or(second.AUTHOR_ID.eq(accountId))))
+            .fetchInto(Exchange::class.java)
+    }
+
 
 }
