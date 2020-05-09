@@ -19,6 +19,7 @@ open class SecurityConfiguration(
     open fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain =
         http.authorizeExchange()
             .pathMatchers(
+                "/internal/info",
                 "/accounts",
                 "/v2/api-docs",
                 "/configuration/ui",
