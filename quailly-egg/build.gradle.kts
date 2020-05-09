@@ -49,10 +49,10 @@ jooqGenerator {
     configuration("primary", sourceSets.getByName("main")) {
         configuration = jooqCodegenConfiguration {
             jdbc {
-                username = "quailly"
-                password = "quailly"
+                username = System.getenv("SPRING_DATASOURCE_USERNAME") ?: "quailly"
+                password = System.getenv("SPRING_DATASOURCE_PASSWORD") ?: "quailly"
                 driver = "org.postgresql.Driver"
-                url = "jdbc:postgresql://localhost:5432/quailly"
+                url = System.getenv("SPRING_DATASOURCE_URL") ?: "jdbc:postgresql://localhost:5432/quailly"
             }
 
             generator {
