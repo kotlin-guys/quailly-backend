@@ -7,7 +7,7 @@ import ru.kpfu.itis.quailly.egg.repository.api.MerchandiseCategoryRepository
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables
 
 @Repository
-class JooqMerchandiseCategoryRepository(private val jooq: DSLContext) : MerchandiseCategoryRepository {
+open class JooqMerchandiseCategoryRepository(private val jooq: DSLContext) : MerchandiseCategoryRepository {
 
     override fun getById(id: Long): MerchandiseCategory {
         TODO("Not yet implemented")
