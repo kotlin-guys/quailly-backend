@@ -1,12 +1,14 @@
 package ru.kpfu.itis.quailly.egg.repository.jooq
 
 import org.jooq.DSLContext
+import org.jooq.impl.DSL
 import org.springframework.stereotype.Repository
 import ru.kpfu.itis.quailly.egg.domain.model.Swipe
 import ru.kpfu.itis.quailly.egg.repository.api.SwipeRepository
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables.MERCHANDISE
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables.SWIPE
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.enums.SwipeDirection
+
 
 @Repository
 open class JooqSwipeRepository(private val jooq: DSLContext) : SwipeRepository {
@@ -24,21 +26,30 @@ open class JooqSwipeRepository(private val jooq: DSLContext) : SwipeRepository {
             .into(Swipe::class.java)
 
     override fun findBackSwipeForMerchandise(merchandiseId: Long, accountId: Long): Swipe? {
-        return jooq.select().from(SWIPE)
-            .join(MERCHANDISE).on(SWIPE.MERCHANDISE_ID.eq(MERCHANDISE.ID))
+        val m2 = MERCHANDISE.`as`("m2")
+        val m = MERCHANDISE.`as`("m")
+        val s = SWIPE.`as`("s")
+
+        return jooq
+            .select()
+            .from(s)
+            .join(m2)
+            .on(s.MERCHANDISE_ID.eq(m2.ID))
             .where(
-                MERCHANDISE.ID.`in`(
-                    jooq.selectDistinct(MERCHANDISE.ID).from(SWIPE)
-                        .join(MERCHANDISE).on(SWIPE.MERCHANDISE_ID.eq(MERCHANDISE.ID))
-                        .where(
-                            MERCHANDISE.AUTHOR_ID.eq(
-                                jooq.select(MERCHANDISE.AUTHOR_ID).from(MERCHANDISE)
-                                    .where(MERCHANDISE.ID.eq(merchandiseId))
-                            )
-                        )
-                )
+                s.SWIPER_ID.eq(
+                    DSL
+                        .select(m.AUTHOR_ID)
+                        .from(m)
+                        .where(m.ID.eq(merchandiseId))
+                ).and(m2.AUTHOR_ID.eq(accountId))
             )
             .fetchOne()
             ?.let { it.into(Swipe::class.java) }
     }
+
+    override fun findSwipesForSwiperAndMerchandise(swiperId: Long, merchandiseId: Long): List<Swipe> =
+        jooq.selectFrom(SWIPE)
+            .where(SWIPE.SWIPER_ID.eq(swiperId))
+            .and(SWIPE.MERCHANDISE_ID.eq(merchandiseId))
+            .fetchInto(Swipe::class.java)
 }

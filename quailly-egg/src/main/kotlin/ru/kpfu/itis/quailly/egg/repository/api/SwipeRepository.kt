@@ -7,4 +7,6 @@ interface SwipeRepository : CreatableRepository<Swipe> {
 
     fun findBackSwipeForMerchandise(merchandiseId: Long, accountId: Long): Swipe?
 
+    fun findSwipesForSwiperAndMerchandise(swiperId: Long, merchandiseId: Long): List<Swipe>
+
 }

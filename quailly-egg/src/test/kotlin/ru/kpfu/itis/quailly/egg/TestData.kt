@@ -57,14 +57,18 @@ fun accountCreationData(name: String = UUID.randomUUID().toString()) = AccountCr
 
 fun merchandiseCreationRequest(
     name: String,
-    categoryId: Long = 1
+    categoryId: Long = 1,
+    desiredCategoryIds: List<Long> = listOf(9, 20)
 ) = MerchandiseCreationRequest(
-    name = name, description = "bla bla", categoryId = categoryId, desiredCategoryIds = listOf(9, 20)
+    name = name,
+    description = "bla bla",
+    categoryId = categoryId,
+    desiredCategoryIds = desiredCategoryIds
 )
 
 fun swipeRequest(
     merchandiseId: Long,
-    direction: SwipeDirection = SwipeDirection.LEFT
+    direction: SwipeDirection = SwipeDirection.RIGHT
 ) = SwipeRequest(
     direction = direction,
     merchandiseId = merchandiseId

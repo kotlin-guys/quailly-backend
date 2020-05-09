@@ -60,4 +60,22 @@ internal class MerchandiseCreationIT {
 
     }
 
+    @Test
+    fun `merchandise created successfully with desired categories`() {
+        val request = merchandiseCreationRequest("koshka kiwi", desiredCategoryIds = listOf(3, 11))
+        val signInSuccess = testClient.retrieveToken(accountCreationData())
+
+        testClient.post()
+            .uri("/merchandises")
+            .header("Authorization", signInSuccess.token)
+            .bodyValue(request)
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.id").exists()
+            .jsonPath("$.authorId").exists()
+            .jsonPath("$.name").isEqualTo(request.name)
+
+    }
+
 }

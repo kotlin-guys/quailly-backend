@@ -16,12 +16,7 @@ open class JooqMerchandiseRepository(private val jooq: DSLContext) : Merchandise
         jooq.transactionResult { configuration ->
             val context = DSL.using(configuration)
 
-            entity.desiredCategoryIds.forEach {
-                context.insertInto(DESIRED_MERCHANDISE_CATALOG)
-                    .columns(DESIRED_MERCHANDISE_CATALOG.MERCHANDISE_ID, DESIRED_MERCHANDISE_CATALOG.CATEGORY_ID)
-                    .values(entity.id, it)
-            }
-            context.insertInto(MERCHANDISE)
+            val createdMerchandise = context.insertInto(MERCHANDISE)
                 .columns(MERCHANDISE.NAME, MERCHANDISE.DESCRIPTION, MERCHANDISE.CATEGORY_ID, MERCHANDISE.AUTHOR_ID)
                 .values(entity.name, entity.description, entity.categoryId, entity.authorId)
                 .returning()
@@ -36,6 +31,14 @@ open class JooqMerchandiseRepository(private val jooq: DSLContext) : Merchandise
                         desiredCategoryIds = entity.desiredCategoryIds
                     )
                 }
+
+            entity.desiredCategoryIds.forEach {
+                context.insertInto(DESIRED_MERCHANDISE_CATALOG)
+                    .columns(DESIRED_MERCHANDISE_CATALOG.MERCHANDISE_ID, DESIRED_MERCHANDISE_CATALOG.CATEGORY_ID)
+                    .values(createdMerchandise.id, it)
+                    .execute()
+            }
+            createdMerchandise
         }
 
     override fun getAllForAuthor(authorId: Long): List<Merchandise> {
@@ -46,24 +49,39 @@ open class JooqMerchandiseRepository(private val jooq: DSLContext) : Merchandise
     }
 
     override fun getNextMerchandisesForReview(limit: Long, authorId: Long): List<Merchandise> {
-        return jooq.select().from(MERCHANDISE)
-            .where(
-                MERCHANDISE.ID.notIn(
-                    jooq.selectDistinct(SWIPE.MERCHANDISE_ID).from(SWIPE)
-                        .where(SWIPE.SWIPER_ID.equal(authorId))
-                        .select
-                )
-            )
-            .and(MERCHANDISE.AUTHOR_ID.notEqual(authorId))
+        return jooq.select(*MERCHANDISE.fields(), DESIRED_MERCHANDISE_CATALOG.CATEGORY_ID.`as`("desired_catalog"))
+            .from(MERCHANDISE)
+            .join(DESIRED_MERCHANDISE_CATALOG).on(DESIRED_MERCHANDISE_CATALOG.MERCHANDISE_ID.eq(MERCHANDISE.ID))
+            .where(MERCHANDISE.AUTHOR_ID.notEqual(authorId))
             .and(
                 MERCHANDISE.CATEGORY_ID.`in`(
                     jooq.selectDistinct(DESIRED_MERCHANDISE_CATALOG.CATEGORY_ID).from(MERCHANDISE)
-                        .join(DESIRED_MERCHANDISE_CATALOG).onKey(MERCHANDISE.CATEGORY_ID)
+                        .join(DESIRED_MERCHANDISE_CATALOG)
+                        .on(MERCHANDISE.CATEGORY_ID.eq(DESIRED_MERCHANDISE_CATALOG.CATEGORY_ID))
                         .where(MERCHANDISE.AUTHOR_ID.equal(authorId))
                 )
             )
+            .except(
+                jooq.select(*MERCHANDISE.fields(), DESIRED_MERCHANDISE_CATALOG.CATEGORY_ID.`as`("desired_catalog"))
+                    .from(MERCHANDISE)
+                    .join(SWIPE).on(SWIPE.MERCHANDISE_ID.eq(MERCHANDISE.ID))
+                    .join(DESIRED_MERCHANDISE_CATALOG).on(DESIRED_MERCHANDISE_CATALOG.MERCHANDISE_ID.eq(MERCHANDISE.ID))
+                    .where(MERCHANDISE.AUTHOR_ID.eq(authorId))
+            )
             .limit(limit)
             .fetch()
-            .into(Merchandise::class.java)
+            .intoGroups(MERCHANDISE)
+            .map {
+                Merchandise(
+                    id = it.key.id,
+                    name = it.key.name,
+                    description = it.key.description,
+                    authorId = it.key.authorId,
+                    categoryId = it.key.categoryId,
+                    desiredCategoryIds = it.value.map { categoryId ->
+                        categoryId.get("desired_catalog", Long::class.java)
+                    }
+                )
+            }
     }
 }
