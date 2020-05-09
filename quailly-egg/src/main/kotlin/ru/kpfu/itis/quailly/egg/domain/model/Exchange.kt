@@ -1,10 +1,10 @@
 package ru.kpfu.itis.quailly.egg.domain.model
 
-import java.time.ZonedDateTime
+import java.time.OffsetDateTime
 
 data class Exchange(
     val id: Long? = null,
-    val publicationDateTime: ZonedDateTime,
+    val publicationDateTime: OffsetDateTime,
     val initiatorId: Long,
     val exchangeStatus: ExchangeStatus,
     val firstMerchandiseId: Long,

@@ -23,7 +23,7 @@ open class JooqExchangeRepository(private val jooq: DSLContext) : ExchangeReposi
                 entity.initiatorId,
                 entity.firstMerchandiseId,
                 entity.secondMerchandiseId,
-                entity.publicationDateTime.toOffsetDateTime(),
+                entity.publicationDateTime,
                 ExchangeStatus.valueOf(entity.exchangeStatus.name)
             )
             .returning()

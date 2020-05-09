@@ -5,9 +5,10 @@ import reactor.core.publisher.Mono
 import ru.kpfu.itis.quailly.egg.domain.model.Exchange
 import ru.kpfu.itis.quailly.egg.domain.model.ExchangeStatus
 import ru.kpfu.itis.quailly.egg.domain.model.Swipe
+import ru.kpfu.itis.quailly.egg.domain.model.SwipeDirection
 import ru.kpfu.itis.quailly.egg.repository.api.ExchangeRepository
 import ru.kpfu.itis.quailly.egg.repository.api.SwipeRepository
-import java.time.ZonedDateTime
+import java.time.OffsetDateTime
 
 @Service
 class SwipeService(
@@ -23,17 +24,19 @@ class SwipeService(
                 direction = request.direction
             )
         )
-        val swipeBack = swipeRepository.findBackSwipeForMerchandise(request.merchandiseId, accountId)
-        if (swipeBack != null) {
-            exchangeRepository.create(
-                Exchange(
-                    publicationDateTime = ZonedDateTime.now(),
-                    initiatorId = accountId,
-                    exchangeStatus = ExchangeStatus.COMMUNICATION_PENDING,
-                    firstMerchandiseId = swipeBack.merchandiseId,
-                    secondMerchandiseId = request.merchandiseId
+        if (request.direction == SwipeDirection.RIGHT) {
+            val swipeBack = swipeRepository.findBackSwipeForMerchandise(request.merchandiseId, accountId)
+            if (swipeBack != null) {
+                exchangeRepository.create(
+                    Exchange(
+                        publicationDateTime = OffsetDateTime.now(),
+                        initiatorId = accountId,
+                        exchangeStatus = ExchangeStatus.COMMUNICATION_PENDING,
+                        firstMerchandiseId = swipeBack.merchandiseId,
+                        secondMerchandiseId = request.merchandiseId
+                    )
                 )
-            )
+            }
         }
         return Mono.just(SwipeResult.Success)
     }
