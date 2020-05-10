@@ -22,10 +22,12 @@ CREATE TABLE account
 CREATE TABLE merchandise
 (
     id          bigserial,
-    name        text   NOT NULL,
-    description text   NOT NULL,
-    category_id bigint NOT NULL,
-    author_id   bigint NOT NULL,
+    name        text        NOT NULL,
+    description text        NOT NULL,
+    picture_url text        NOT NULL,
+    category_id bigint      NOT NULL,
+    author_id   bigint      NOT NULL,
+    created     timestamptz NOT NULL,
     avatar_url  text
 );
 
@@ -49,10 +51,11 @@ CREATE TABLE dialog
 CREATE TABLE message
 (
     id             bigserial,
-    dialog_id      bigint NOT NULL,
-    sender_id      bigint NOT NULL,
-    destination_id bigint NOT NULL,
-    content        text   NOT NULL
+    created        timestamptz NOT NULL,
+    dialog_id      bigint      NOT NULL,
+    sender_id      bigint      NOT NULL,
+    destination_id bigint      NOT NULL,
+    content        text        NOT NULL
 );
 
 CREATE TYPE exchange_status AS ENUM ('COMMUNICATION_PENDING', 'SUCCESS', 'DECLINED');

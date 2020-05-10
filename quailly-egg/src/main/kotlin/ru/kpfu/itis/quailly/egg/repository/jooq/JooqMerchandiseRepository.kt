@@ -17,8 +17,22 @@ open class JooqMerchandiseRepository(private val jooq: DSLContext) : Merchandise
             val context = DSL.using(configuration)
 
             val createdMerchandise = context.insertInto(MERCHANDISE)
-                .columns(MERCHANDISE.NAME, MERCHANDISE.DESCRIPTION, MERCHANDISE.CATEGORY_ID, MERCHANDISE.AUTHOR_ID)
-                .values(entity.name, entity.description, entity.categoryId, entity.authorId)
+                .columns(
+                    MERCHANDISE.NAME,
+                    MERCHANDISE.DESCRIPTION,
+                    MERCHANDISE.CATEGORY_ID,
+                    MERCHANDISE.AUTHOR_ID,
+                    MERCHANDISE.CREATED,
+                    MERCHANDISE.PICTURE_URL
+                )
+                .values(
+                    entity.name,
+                    entity.description,
+                    entity.categoryId,
+                    entity.authorId,
+                    entity.created,
+                    entity.pictureUrl
+                )
                 .returning()
                 .fetchOne()
                 .map {
@@ -28,7 +42,9 @@ open class JooqMerchandiseRepository(private val jooq: DSLContext) : Merchandise
                         description = it.get(MERCHANDISE.DESCRIPTION),
                         categoryId = it.get(MERCHANDISE.CATEGORY_ID),
                         authorId = it.get(MERCHANDISE.AUTHOR_ID),
-                        desiredCategoryIds = entity.desiredCategoryIds
+                        desiredCategoryIds = entity.desiredCategoryIds,
+                        pictureUrl = it.get(MERCHANDISE.PICTURE_URL),
+                        created = it.get(MERCHANDISE.CREATED)
                     )
                 }
 
@@ -80,7 +96,9 @@ open class JooqMerchandiseRepository(private val jooq: DSLContext) : Merchandise
                     categoryId = it.key.categoryId,
                     desiredCategoryIds = it.value.map { categoryId ->
                         categoryId.get("desired_catalog", Long::class.java)
-                    }
+                    },
+                    pictureUrl = it.key.pictureUrl,
+                    created = it.key.created
                 )
             }
     }

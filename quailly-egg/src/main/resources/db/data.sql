@@ -49,40 +49,47 @@ INSERT INTO account(username, email, email_verified, first_name, family_name, gi
 VALUES ('phoenigm', 'phoenigm@test.com', true, 'Азат', 'Мухаметзянов', null, null, null, null, '112', now(), now(),
         'phoenigm');
 
-INSERT INTO merchandise(name, description, category_id, author_id)
+INSERT INTO merchandise(name, description, category_id, author_id, created, picture_url)
 VALUES ('Кровать', 'Кровать',
         (SELECT id FROM merchandise_category WHERE name = 'Товары для отдыха'),
-        (SELECT id FROM account WHERE username = 'iapolly'));
+        (SELECT id FROM account WHERE username = 'iapolly'),
+        now(), 'not defined');
 
-INSERT INTO merchandise(name, description, category_id, author_id)
+INSERT INTO merchandise(name, description, category_id, author_id, created, picture_url)
 VALUES ('Подушка', 'Подушка',
         (SELECT id FROM merchandise_category WHERE name = 'Товары для отдыха'),
-        (SELECT id FROM account WHERE username = 'iapolly'));
+        (SELECT id FROM account WHERE username = 'iapolly'),
+        now(), 'not defined');
 
-INSERT INTO merchandise(name, description, category_id, author_id)
+INSERT INTO merchandise(name, description, category_id, author_id, created, picture_url)
 VALUES ('Ноутбук', 'Обменяю',
         (SELECT id FROM merchandise_category WHERE name = 'Компьютеры и ноутбуки'),
-        (SELECT id FROM account WHERE username = 'iapolly'));
+        (SELECT id FROM account WHERE username = 'iapolly'),
+        now(), 'not defined');
 
-INSERT INTO merchandise(name, description, category_id, author_id)
+INSERT INTO merchandise(name, description, category_id, author_id, created, picture_url)
 VALUES ('Кошка Киви', 'Отдам даром и даже заплачу, если заберете! Только заберите!!!!!',
         (SELECT id FROM merchandise_category WHERE name = 'Игрушки'),
-        (SELECT id FROM account WHERE username = 'phoenigm'));
+        (SELECT id FROM account WHERE username = 'phoenigm'),
+        now(), 'not defined');
 
-INSERT INTO merchandise(name, description, category_id, author_id)
+INSERT INTO merchandise(name, description, category_id, author_id, created, picture_url)
 VALUES ('Клавиатура', 'Оклик',
         (SELECT id FROM merchandise_category WHERE name = 'Техника для офиса'),
-        (SELECT id FROM account WHERE username = 'phoenigm'));
+        (SELECT id FROM account WHERE username = 'phoenigm'),
+        now(), 'not defined');
 
-INSERT INTO merchandise(name, description, category_id, author_id)
+INSERT INTO merchandise(name, description, category_id, author_id, created, picture_url)
 VALUES ('Макбук', 'мак мусор, обменяю на животное',
         (SELECT id FROM merchandise_category WHERE name = 'Компьютеры и ноутбуки'),
-        (SELECT id FROM account WHERE username = 'emilg1101'));
+        (SELECT id FROM account WHERE username = 'emilg1101'),
+        now(), 'not defined');
 
-INSERT INTO merchandise(name, description, category_id, author_id)
+INSERT INTO merchandise(name, description, category_id, author_id, created, picture_url)
 VALUES ('Айфон 10', 'обменяюсь на женскую одежду',
         (SELECT id FROM merchandise_category WHERE name = 'Телефоны'),
-        (SELECT id FROM account WHERE username = 'jaskelai'));
+        (SELECT id FROM account WHERE username = 'jaskelai'),
+        now(), 'not defined');
 
 INSERT INTO desired_merchandise_catalog(merchandise_id, category_id)
 VALUES ((SELECT id FROM merchandise WHERE name = 'Кровать'),

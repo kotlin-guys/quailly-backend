@@ -32,7 +32,9 @@ fun merchandise(
     description = "the best merchandise ever",
     categoryId = categoryId,
     authorId = authorId,
-    desiredCategoryIds = desiredCategoryIds
+    desiredCategoryIds = desiredCategoryIds,
+    pictureUrl = "",
+    created = OffsetDateTime.now()
 )
 
 fun swipe(
@@ -63,7 +65,8 @@ fun merchandiseCreationRequest(
     name = name,
     description = "bla bla",
     categoryId = categoryId,
-    desiredCategoryIds = desiredCategoryIds
+    desiredCategoryIds = desiredCategoryIds,
+    pictureUrl = ""
 )
 
 fun swipeRequest(
