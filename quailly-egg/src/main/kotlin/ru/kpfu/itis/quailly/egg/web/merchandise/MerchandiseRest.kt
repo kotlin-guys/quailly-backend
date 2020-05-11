@@ -14,7 +14,7 @@ class MerchandiseRest(
 ) {
 
     @GetMapping
-    fun `get merchandies of account`(authentication: TokenAuthentication) =
+    fun getMerchandisesOfAccount(authentication: TokenAuthentication) =
         merchandiseService.findMerchandises(authentication.principal)
 
     @GetMapping("/next")

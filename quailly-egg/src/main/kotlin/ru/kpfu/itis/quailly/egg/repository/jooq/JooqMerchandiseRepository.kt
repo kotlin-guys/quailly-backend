@@ -5,6 +5,7 @@ import org.jooq.impl.DSL
 import org.springframework.stereotype.Repository
 import ru.kpfu.itis.quailly.egg.domain.model.Merchandise
 import ru.kpfu.itis.quailly.egg.repository.api.MerchandiseRepository
+import ru.kpfu.itis.quailly.egg.repository.jooq.mapper.MerchandiseRecordMapper
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables.DESIRED_MERCHANDISE_CATALOG
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables.SWIPE
 import ru.kpfu.itis.quailly.egg.repository.jooq.schema.tables.Merchandise.MERCHANDISE
@@ -58,10 +59,14 @@ open class JooqMerchandiseRepository(private val jooq: DSLContext) : Merchandise
         }
 
     override fun getAllForAuthor(authorId: Long): List<Merchandise> {
-        return jooq.select().from(MERCHANDISE)
+        return jooq.select(*MERCHANDISE.fields(), DESIRED_MERCHANDISE_CATALOG.CATEGORY_ID.`as`("desired_catalog"))
+            .from(MERCHANDISE)
+            .join(DESIRED_MERCHANDISE_CATALOG)
+            .on(MERCHANDISE.ID.eq(DESIRED_MERCHANDISE_CATALOG.MERCHANDISE_ID))
             .where(MERCHANDISE.AUTHOR_ID.eq(authorId))
             .fetch()
-            .into(Merchandise::class.java)
+            .intoGroups(MERCHANDISE)
+            .map { MerchandiseRecordMapper().map(it) }
     }
 
     override fun getNextMerchandisesForReview(limit: Long, authorId: Long): List<Merchandise> {
@@ -87,19 +92,7 @@ open class JooqMerchandiseRepository(private val jooq: DSLContext) : Merchandise
             .limit(limit)
             .fetch()
             .intoGroups(MERCHANDISE)
-            .map {
-                Merchandise(
-                    id = it.key.id,
-                    name = it.key.name,
-                    description = it.key.description,
-                    authorId = it.key.authorId,
-                    categoryId = it.key.categoryId,
-                    desiredCategoryIds = it.value.map { categoryId ->
-                        categoryId.get("desired_catalog", Long::class.java)
-                    },
-                    pictureUrl = it.key.pictureUrl,
-                    created = it.key.created
-                )
-            }
+            .map { MerchandiseRecordMapper().map(it) }
+
     }
 }
