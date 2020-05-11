@@ -1,14 +1,16 @@
 package ru.kpfu.itis.quailly.egg.web
 
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.reactive.server.WebTestClient
 import ru.kpfu.itis.quailly.egg.accountCreationData
 import ru.kpfu.itis.quailly.egg.domain.model.ExchangeStatus
+import ru.kpfu.itis.quailly.egg.domain.model.SwipeDirection
 import ru.kpfu.itis.quailly.egg.domain.swipe.SwipeRequest
 import ru.kpfu.itis.quailly.egg.merchandise
 import ru.kpfu.itis.quailly.egg.repository.api.AccountRepository
@@ -112,20 +114,24 @@ internal class SwipeIT {
             .expectBody().isEmpty
     }
 
-    @Disabled("Doesn't depend on categories")
-    @Test
-    fun test2() {
+    @CsvSource("LEFT,LEFT", "LEFT,RIGHT", "RIGHT,LEFT")
+    @ParameterizedTest
+    fun `exchange should be created only for right-right directions`(
+        firstDirection: SwipeDirection, secondDirection: SwipeDirection
+    ) {
         val signInSuccess = testClient.retrieveToken(accountCreationData())
         val account = accountRepository.findByToken(signInSuccess.token)!!
-        val merchandise =
-            merchandiseRepository.create(merchandise("Koshka kiwi", account.id!!, 1, desiredCategoryIds = listOf(1)))
+        val merchandise = merchandiseRepository.create(
+            merchandise("Koshka kiwi", account.id!!, 1, desiredCategoryIds = listOf(1))
+        )
 
         val signInSuccess2 = testClient.retrieveToken(accountCreationData())
         val account2 = accountRepository.findByToken(signInSuccess2.token)!!
-        val merchandise2 =
-            merchandiseRepository.create(merchandise("Samat", account2.id!!, 2, desiredCategoryIds = listOf(1)))
+        val merchandise2 = merchandiseRepository.create(
+            merchandise("Samat", account2.id!!, 2, desiredCategoryIds = listOf(1))
+        )
 
-        val request = swipeRequest(merchandise2.id!!)
+        val request = swipeRequest(merchandise2.id!!, firstDirection)
         testClient.post()
             .uri("/swipe")
             .header("Authorization", signInSuccess.token)
@@ -134,7 +140,7 @@ internal class SwipeIT {
             .expectStatus().isOk
             .expectBody().isEmpty
 
-        val request2 = swipeRequest(merchandise.id!!)
+        val request2 = swipeRequest(merchandise.id!!, secondDirection)
         testClient.post()
             .uri("/swipe")
             .header("Authorization", signInSuccess2.token)

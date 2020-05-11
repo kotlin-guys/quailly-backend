@@ -42,7 +42,7 @@ open class JooqSwipeRepository(private val jooq: DSLContext) : SwipeRepository {
                         .from(m)
                         .where(m.ID.eq(merchandiseId))
                 ).and(m2.AUTHOR_ID.eq(accountId))
-            )
+            ).and(s.DIRECTION.eq(SwipeDirection.RIGHT))
             .fetchOne()
             ?.let { it.into(Swipe::class.java) }
     }

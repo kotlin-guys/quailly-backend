@@ -2,6 +2,7 @@ package ru.kpfu.itis.quailly.egg.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import ru.kpfu.itis.quailly.egg.security.token.TokenAuthentication
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.spi.DocumentationType
@@ -15,6 +16,7 @@ open class SwaggerConfiguration {
     @Bean
     open fun api(): Docket {
         return Docket(DocumentationType.SWAGGER_2)
+            .ignoredParameterTypes(TokenAuthentication::class.java)
             .select()
             .apis(RequestHandlerSelectors.any())
             .paths(PathSelectors.any())
