@@ -10,9 +10,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import ru.kpfu.itis.quailly.egg.accountCreationData
 import ru.kpfu.itis.quailly.egg.merchandise
 import ru.kpfu.itis.quailly.egg.repository.api.AccountRepository
-import ru.kpfu.itis.quailly.egg.repository.api.ExchangeRepository
 import ru.kpfu.itis.quailly.egg.repository.api.MerchandiseRepository
-import ru.kpfu.itis.quailly.egg.repository.api.SwipeRepository
 import ru.kpfu.itis.quailly.egg.retrieveToken
 
 @SpringBootTest(properties = ["SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/quailly"])
@@ -23,16 +21,10 @@ internal class MerchandiseForSwipeIT {
     private lateinit var testClient: WebTestClient
 
     @Autowired
-    private lateinit var exchangeRepository: ExchangeRepository
-
-    @Autowired
     private lateinit var accountRepository: AccountRepository
 
     @Autowired
     private lateinit var merchandiseRepository: MerchandiseRepository
-
-    @Autowired
-    private lateinit var swipeRepository: SwipeRepository
 
     @Test
     fun test1() {

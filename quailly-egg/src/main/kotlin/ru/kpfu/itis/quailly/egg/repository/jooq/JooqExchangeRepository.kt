@@ -31,8 +31,8 @@ open class JooqExchangeRepository(private val jooq: DSLContext) : ExchangeReposi
             .into(Exchange::class.java)
 
     override fun findExchangesForAccount(accountId: Long): List<Exchange> {
-        val first = MERCHANDISE.`as`("first");
-        val second = MERCHANDISE.`as`("second");
+        val first = MERCHANDISE.`as`("first")
+        val second = MERCHANDISE.`as`("second")
         return jooq
             .select()
             .from(EXCHANGE)
@@ -41,8 +41,23 @@ open class JooqExchangeRepository(private val jooq: DSLContext) : ExchangeReposi
             .join(second)
             .on(second.ID.eq(EXCHANGE.SECOND_MERCHANDISE_ID))
             .where((first.AUTHOR_ID.eq(accountId).or(second.AUTHOR_ID.eq(accountId))))
+            .and(EXCHANGE.EXCHANGE_STATUS.eq(ExchangeStatus.COMMUNICATION_PENDING))
             .fetchInto(Exchange::class.java)
     }
 
+    override fun getById(id: Long): Exchange? =
+        jooq.selectFrom(EXCHANGE)
+            .where(EXCHANGE.ID.eq(id))
+            .fetchOne()
+            ?.let { it.into(Exchange::class.java) }
+
+    override fun update(entity: Exchange): Exchange =
+        jooq.update(EXCHANGE)
+            .set(EXCHANGE.FIRST_ACCEPTED, entity.firstAccepted)
+            .set(EXCHANGE.SECOND_ACCEPTED, entity.secondAccepted)
+            .set(EXCHANGE.EXCHANGE_STATUS, ExchangeStatus.valueOf(entity.exchangeStatus.name))
+            .returning()
+            .fetchOne()
+            .into(Exchange::class.java)
 
 }

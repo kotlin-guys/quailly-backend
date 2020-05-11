@@ -2,10 +2,7 @@ package ru.kpfu.itis.quailly.egg
 
 import ru.kpfu.itis.quailly.egg.domain.account.AccountCreationData
 import ru.kpfu.itis.quailly.egg.domain.merchandise.MerchandiseCreationRequest
-import ru.kpfu.itis.quailly.egg.domain.model.Account
-import ru.kpfu.itis.quailly.egg.domain.model.Merchandise
-import ru.kpfu.itis.quailly.egg.domain.model.Swipe
-import ru.kpfu.itis.quailly.egg.domain.model.SwipeDirection
+import ru.kpfu.itis.quailly.egg.domain.model.*
 import ru.kpfu.itis.quailly.egg.domain.swipe.SwipeRequest
 import java.time.OffsetDateTime
 import java.util.*
@@ -45,6 +42,20 @@ fun swipe(
     accountId = accountId,
     merchandiseId = merchandiseId,
     direction = direction
+)
+
+fun exchange(
+    firstMerchandiseId: Long,
+    secondMerchandiseId: Long,
+    initiatorId: Long
+) = Exchange(
+    publicationDateTime = OffsetDateTime.now(),
+    initiatorId = initiatorId,
+    firstMerchandiseId = firstMerchandiseId,
+    secondMerchandiseId = secondMerchandiseId,
+    exchangeStatus = ExchangeStatus.COMMUNICATION_PENDING,
+    firstAccepted = false,
+    secondAccepted = false
 )
 
 fun accountCreationData(name: String = UUID.randomUUID().toString()) = AccountCreationData(

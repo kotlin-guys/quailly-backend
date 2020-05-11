@@ -33,7 +33,9 @@ class SwipeService(
                         initiatorId = accountId,
                         exchangeStatus = ExchangeStatus.COMMUNICATION_PENDING,
                         firstMerchandiseId = swipeBack.merchandiseId,
-                        secondMerchandiseId = request.merchandiseId
+                        secondMerchandiseId = request.merchandiseId,
+                        firstAccepted = false,
+                        secondAccepted = false
                     )
                 )
             }

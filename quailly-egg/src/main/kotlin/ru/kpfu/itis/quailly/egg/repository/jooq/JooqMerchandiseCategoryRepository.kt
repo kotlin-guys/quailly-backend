@@ -9,10 +9,6 @@ import ru.kpfu.itis.quailly.egg.repository.jooq.schema.Tables
 @Repository
 open class JooqMerchandiseCategoryRepository(private val jooq: DSLContext) : MerchandiseCategoryRepository {
 
-    override fun getById(id: Long): MerchandiseCategory {
-        TODO("Not yet implemented")
-    }
-
     override fun getAll(): List<MerchandiseCategory> =
         jooq.selectFrom(Tables.MERCHANDISE_CATEGORY)
             .fetch()

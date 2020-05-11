@@ -30,4 +30,7 @@ class MerchandiseService(
 
     fun findMerchandises(authorId: Long): Flux<Merchandise> =
         Flux.fromIterable(merchandiseRepository.getAllForAuthor(authorId))
+
+    fun findMerchandiseById(merchandiseId: Long): Mono<Merchandise> =
+        Mono.justOrEmpty(merchandiseRepository.getById(merchandiseId))
 }

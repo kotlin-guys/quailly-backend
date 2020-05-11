@@ -17,6 +17,10 @@ class MerchandiseRest(
     fun getMerchandisesOfAccount(authentication: TokenAuthentication) =
         merchandiseService.findMerchandises(authentication.principal)
 
+    @GetMapping("/{merchandiseId}")
+    fun getMerchandiseById(@PathVariable merchandiseId: Long) =
+        merchandiseService.findMerchandiseById(merchandiseId)
+
     @GetMapping("/next")
     fun nextMerchandises(
         @RequestParam limit: Long,

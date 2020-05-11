@@ -67,7 +67,9 @@ CREATE TABLE exchange
     first_merchandise_id  bigint          NOT NULL,
     second_merchandise_id bigint          NOT NULL,
     publication_date_time timestamptz     NOT NULL,
-    exchange_status       exchange_status NOT NULL
+    exchange_status       exchange_status NOT NULL,
+    first_accepted        boolean         NOT NULL DEFAULT false,
+    second_accepted       boolean         NOT NULL DEFAULT false
 );
 
 CREATE TABLE merchandise_category

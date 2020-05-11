@@ -8,11 +8,13 @@ data class Exchange(
     val initiatorId: Long,
     val exchangeStatus: ExchangeStatus,
     val firstMerchandiseId: Long,
-    val secondMerchandiseId: Long
+    val secondMerchandiseId: Long,
+    val firstAccepted: Boolean,
+    val secondAccepted: Boolean
 )
 
 enum class ExchangeStatus {
-    INITIATED,
     COMMUNICATION_PENDING,
-    SUCCESS
+    SUCCESS,
+    DECLINED
 }

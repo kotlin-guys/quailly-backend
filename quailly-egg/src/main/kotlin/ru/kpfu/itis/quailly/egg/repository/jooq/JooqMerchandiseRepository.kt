@@ -13,6 +13,17 @@ import ru.kpfu.itis.quailly.egg.repository.jooq.schema.tables.Merchandise.MERCHA
 @Repository
 open class JooqMerchandiseRepository(private val jooq: DSLContext) : MerchandiseRepository {
 
+    override fun getById(id: Long): Merchandise? =
+        jooq.select(*MERCHANDISE.fields(), DESIRED_MERCHANDISE_CATALOG.CATEGORY_ID.`as`("desired_catalog"))
+            .from(MERCHANDISE)
+            .join(DESIRED_MERCHANDISE_CATALOG)
+            .on(MERCHANDISE.ID.eq(DESIRED_MERCHANDISE_CATALOG.MERCHANDISE_ID))
+            .where(MERCHANDISE.ID.eq(id))
+            .fetch()
+            .intoGroups(MERCHANDISE)
+            .map { MerchandiseRecordMapper().map(it) }
+            .firstOrNull()
+
     override fun create(entity: Merchandise): Merchandise =
         jooq.transactionResult { configuration ->
             val context = DSL.using(configuration)
