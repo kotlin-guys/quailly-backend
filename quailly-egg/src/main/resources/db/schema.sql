@@ -87,7 +87,8 @@ CREATE TABLE desired_merchandise_catalog
 BEGIN;
 
 ALTER TABLE account
-    ADD CONSTRAINT account_pk PRIMARY KEY (id);
+    ADD CONSTRAINT account_pk PRIMARY KEY (id),
+    ADD CONSTRAINT account_email_unique UNIQUE (email);
 
 ALTER TABLE merchandise_category
     ADD CONSTRAINT merchandise_category_pk PRIMARY KEY (id);

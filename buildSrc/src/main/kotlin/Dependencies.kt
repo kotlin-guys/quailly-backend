@@ -35,6 +35,7 @@ object Libs {
         "org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${Vers.springBoot}"
     const val springConfigProcessor = "org.springframework.boot:spring-boot-configuration-processor:${Vers.springBoot}"
     const val springJooq = "org.springframework.boot:spring-boot-starter-jooq:${Vers.springBoot}"
+    const val springIntegration = "org.springframework.boot:spring-boot-starter-integration:${Vers.springBoot}"
     const val springTest = "org.springframework.boot:spring-boot-starter-test:${Vers.springBoot}"
 
     const val jacksonKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Vers.jacksonKotlin}"

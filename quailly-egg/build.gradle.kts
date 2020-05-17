@@ -33,6 +33,7 @@ dependencies {
     implementation(Libs.jacksonKotlin)
 
     implementation(Libs.springWebflux)
+    implementation(Libs.springIntegration)
     implementation(Libs.springSecurity)
 
     implementation(Libs.springJooq)
