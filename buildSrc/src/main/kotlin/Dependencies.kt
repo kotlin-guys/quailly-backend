@@ -26,6 +26,7 @@ object Libs {
     const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Vers.kotlin}"
     const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Vers.kotlin}"
     const val kotlinJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Vers.kotlin}"
+    const val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Vers.kotlin}"
 
     const val springR2dbc = "org.springframework.boot.experimental:spring-boot-starter-data-r2dbc:${Vers.springR2dbc}"
     const val springDataJpa = "org.springframework.boot:spring-boot-starter-data-jpa:${Vers.springBoot}"
@@ -59,6 +60,7 @@ object Libs {
     const val springRestDocs = "org.springframework.restdocs:spring-restdocs-mockmvc:${Vers.restDocs}"
     const val springDoc = "org.springdoc:springdoc-openapi-ui:${Vers.springDoc}"
 
+    const val springAmpq = "org.springframework.boot:spring-boot-starter-amqp:${Vers.springBoot}"
     const val springSecurity = "org.springframework.boot:spring-boot-starter-security:${Vers.springBoot}"
     const val springSecurityAuto =
         "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${Vers.springBoot}"

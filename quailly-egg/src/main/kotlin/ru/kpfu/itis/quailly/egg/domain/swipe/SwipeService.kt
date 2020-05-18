@@ -16,24 +16,24 @@ class SwipeService(
     private val exchangeRepository: ExchangeRepository
 ) {
 
-    fun swipe(request: SwipeRequest, accountId: Long): Mono<SwipeResult> {
+    fun swipe(swipeData: SwipeData): Mono<SwipeResult> {
         swipeRepository.create(
             Swipe(
-                accountId = accountId,
-                merchandiseId = request.merchandiseId,
-                direction = request.direction
+                accountId = swipeData.swiperId,
+                merchandiseId = swipeData.merchandiseId,
+                direction = swipeData.direction
             )
         )
-        if (request.direction == SwipeDirection.RIGHT) {
-            val swipeBack = swipeRepository.findBackSwipeForMerchandise(request.merchandiseId, accountId)
+        if (swipeData.direction == SwipeDirection.RIGHT) {
+            val swipeBack = swipeRepository.findBackSwipeForMerchandise(swipeData.merchandiseId, swipeData.swiperId)
             if (swipeBack != null) {
                 exchangeRepository.create(
                     Exchange(
                         publicationDateTime = OffsetDateTime.now(),
-                        initiatorId = accountId,
+                        initiatorId = swipeData.swiperId,
                         exchangeStatus = ExchangeStatus.COMMUNICATION_PENDING,
                         firstMerchandiseId = swipeBack.merchandiseId,
-                        secondMerchandiseId = request.merchandiseId,
+                        secondMerchandiseId = swipeData.merchandiseId,
                         firstAccepted = false,
                         secondAccepted = false
                     )

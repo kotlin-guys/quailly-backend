@@ -35,6 +35,7 @@ dependencies {
     implementation(Libs.springWebflux)
     implementation(Libs.springIntegration)
     implementation(Libs.springSecurity)
+    implementation(Libs.springAmpq)
 
     implementation(Libs.springJooq)
     implementation(Libs.postgres)

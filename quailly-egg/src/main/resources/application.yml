@@ -3,6 +3,17 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME:quailly}
     password: ${SPRING_DATASOURCE_PASSWORD:quailly}
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db-quailly/quailly}
+  rabbitmq:
+    template:
+      exchange: swipe-exchange
+      default-receive-queue: swipe-queue
+      routing-key: swipe-routing
+    host: localhost
+    username: guest
+    password: guest
+    queue: swipe
+  main:
+    allow-bean-definition-overriding: true
 server:
   port: ${PORT:20000}
 
