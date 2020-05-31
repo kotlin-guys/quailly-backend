@@ -23,7 +23,7 @@ internal class ExchangeFetchingIT {
     private lateinit var accountRepository: AccountRepository
 
     @Test
-    fun test() {
+    fun `token retrieving success`() {
         val signInSuccess = testClient.retrieveToken(accountCreationData())
         fetchMerchandises(signInSuccess.token)
             .expectBody()
@@ -31,7 +31,7 @@ internal class ExchangeFetchingIT {
     }
 
     @Test
-    fun test2() {
+    fun `create exchange works fine`() {
         val signInSuccess = testClient.retrieveToken(accountCreationData())
         val signInSuccess1 = testClient.retrieveToken(accountCreationData())
         val account = accountRepository.findByToken(signInSuccess.token)

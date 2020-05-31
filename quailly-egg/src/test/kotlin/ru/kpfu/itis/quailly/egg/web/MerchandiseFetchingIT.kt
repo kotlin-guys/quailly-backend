@@ -26,7 +26,7 @@ class MerchandiseFetchingIT {
     }
 
     @Test
-    fun test1() {
+    fun `created merchandises fetched successfully`() {
         val signInSuccess = testClient.retrieveToken(accountCreationData())
         val m1 = testClient.createMerchandise(merchandiseCreationRequest("trap"), signInSuccess.token)
         val m2 = testClient.createMerchandise(merchandiseCreationRequest("cloud"), signInSuccess.token)

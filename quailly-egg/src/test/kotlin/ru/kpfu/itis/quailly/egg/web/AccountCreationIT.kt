@@ -21,7 +21,7 @@ internal class AccountCreationIT {
     private lateinit var accountRepository: AccountRepository
 
     @Test
-    fun `account created`() {
+    fun `account created when not found account in db`() {
         val data = accountCreationData("yakuza")
         testClient.retrieveToken(data)
 
@@ -35,7 +35,7 @@ internal class AccountCreationIT {
     }
 
     @Test
-    fun `signed in`() {
+    fun `signed in when found acctount in db`() {
         val data = accountCreationData("yakuza")
         testClient.retrieveToken(data)
         testClient.retrieveToken(data)

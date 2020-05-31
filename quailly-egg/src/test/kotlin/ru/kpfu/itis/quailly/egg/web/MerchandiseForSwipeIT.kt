@@ -27,17 +27,17 @@ internal class MerchandiseForSwipeIT {
     private lateinit var merchandiseRepository: MerchandiseRepository
 
     @Test
-    fun test1() {
+    fun `no merchandises for swipe`() {
         val signInSuccess = testClient.retrieveToken(accountCreationData())
         val account = accountRepository.findByToken(signInSuccess.token)!!
 
         val merchandisesForSwipe = merchandiseRepository.getNextMerchandisesForReview(1, account.id!!)
-        assertEquals(1, merchandisesForSwipe.size)
+        assertEquals(0, merchandisesForSwipe.size)
 
     }
 
     @Test
-    fun test2() {
+    fun `merchandises of account able to get for swiping`() {
         val signInSuccess = testClient.retrieveToken(accountCreationData())
         val account = accountRepository.findByToken(signInSuccess.token)!!
 

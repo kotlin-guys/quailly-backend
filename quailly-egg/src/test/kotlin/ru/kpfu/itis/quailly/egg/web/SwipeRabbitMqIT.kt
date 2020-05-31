@@ -1,5 +1,6 @@
 package ru.kpfu.itis.quailly.egg.web
 
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
@@ -29,6 +30,7 @@ internal class SwipeRabbitMqIT {
 
 
     @Test
+    @Disabled
     fun test() {
         val signInSuccess = testClient.retrieveToken(accountCreationData())
         val account = accountRepository.findByToken(signInSuccess.token)!!

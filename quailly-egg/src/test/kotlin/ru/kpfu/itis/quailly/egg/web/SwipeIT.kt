@@ -1,6 +1,7 @@
 package ru.kpfu.itis.quailly.egg.web
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -11,7 +12,9 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import ru.kpfu.itis.quailly.egg.accountCreationData
 import ru.kpfu.itis.quailly.egg.domain.model.ExchangeStatus
 import ru.kpfu.itis.quailly.egg.domain.model.SwipeDirection
+import ru.kpfu.itis.quailly.egg.domain.swipe.SwipeData
 import ru.kpfu.itis.quailly.egg.domain.swipe.SwipeRequest
+import ru.kpfu.itis.quailly.egg.domain.swipe.SwipeService
 import ru.kpfu.itis.quailly.egg.merchandise
 import ru.kpfu.itis.quailly.egg.repository.api.AccountRepository
 import ru.kpfu.itis.quailly.egg.repository.api.ExchangeRepository
@@ -34,13 +37,16 @@ internal class SwipeIT {
     private lateinit var accountRepository: AccountRepository
 
     @Autowired
+    private lateinit var swipeService: SwipeService
+
+    @Autowired
     private lateinit var merchandiseRepository: MerchandiseRepository
 
     @Autowired
     private lateinit var swipeRepository: SwipeRepository
 
     @Test
-    fun text() {
+    fun `able to swipe merchandise with token in header`() {
         val signInSuccess = testClient.retrieveToken(accountCreationData())
         val account = accountRepository.findByToken(signInSuccess.token)!!
         val merchandise = merchandiseRepository.create(merchandise("Koshka kiwi", account.id!!))
@@ -57,7 +63,40 @@ internal class SwipeIT {
     }
 
     @Test
-    fun test() {
+    fun `1in result of mutual swipe exchange should be created`() {
+        val signInSuccess = testClient.retrieveToken(accountCreationData())
+        val account = accountRepository.findByToken(signInSuccess.token)!!
+        val merchandise = merchandiseRepository.create(
+            merchandise("Самакат", account.id!!, 1, desiredCategoryIds = listOf(2))
+        )
+
+        val signInSuccess2 = testClient.retrieveToken(accountCreationData())
+        val account2 = accountRepository.findByToken(signInSuccess2.token)!!
+        val merchandise2 = merchandiseRepository.create(
+            merchandise("Телефон", account2.id!!, 2, desiredCategoryIds = listOf(1))
+        )
+
+        swipeService.swipe(SwipeData(SwipeDirection.RIGHT, merchandise2.id!!, account.id!!))
+        swipeService.swipe(SwipeData(SwipeDirection.RIGHT, merchandise.id!!, account2.id!!))
+
+
+        val exchanges = exchangeRepository.findExchangesForAccount(account.id!!)
+        val exchanges2 = exchangeRepository.findExchangesForAccount(account2.id!!)
+        assertEquals(1, exchanges.size)
+        assertEquals(1, exchanges2.size)
+        exchanges.forEachIndexed { index, exc ->
+            assertEquals(exc, exchanges2[index])
+        }
+        val exchange = exchanges.first()
+        assertEquals(account2.id!!, exchange.initiatorId)
+        assertEquals(merchandise2.id!!, exchange.firstMerchandiseId)
+        assertEquals(merchandise.id!!, exchange.secondMerchandiseId)
+        assertEquals(ExchangeStatus.COMMUNICATION_PENDING, exchange.exchangeStatus)
+    }
+
+    @Test
+    @Disabled
+    fun `in result of mutual swipe exchange should be created`() {
         val signInSuccess = testClient.retrieveToken(accountCreationData())
         val account = accountRepository.findByToken(signInSuccess.token)!!
         val merchandise = merchandiseRepository.create(
