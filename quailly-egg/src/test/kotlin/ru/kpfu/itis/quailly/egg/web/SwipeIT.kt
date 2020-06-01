@@ -63,7 +63,7 @@ internal class SwipeIT {
     }
 
     @Test
-    fun `1in result of mutual swipe exchange should be created`() {
+    fun `in result of mutual swipe exchange should be created`() {
         val signInSuccess = testClient.retrieveToken(accountCreationData())
         val account = accountRepository.findByToken(signInSuccess.token)!!
         val merchandise = merchandiseRepository.create(
@@ -76,8 +76,8 @@ internal class SwipeIT {
             merchandise("Телефон", account2.id!!, 2, desiredCategoryIds = listOf(1))
         )
 
-        swipeService.swipe(SwipeData(SwipeDirection.RIGHT, merchandise2.id!!, account.id!!))
-        swipeService.swipe(SwipeData(SwipeDirection.RIGHT, merchandise.id!!, account2.id!!))
+        swipeService.swipe(SwipeData(SwipeDirection.RIGHT, merchandise2.id!!, account.id!!)).subscribe()
+        swipeService.swipe(SwipeData(SwipeDirection.RIGHT, merchandise.id!!, account2.id!!)).subscribe()
 
 
         val exchanges = exchangeRepository.findExchangesForAccount(account.id!!)
@@ -96,7 +96,7 @@ internal class SwipeIT {
 
     @Test
     @Disabled
-    fun `in result of mutual swipe exchange should be created`() {
+    fun `in result of mutual swipe exchange should be created without rabbitmq`() {
         val signInSuccess = testClient.retrieveToken(accountCreationData())
         val account = accountRepository.findByToken(signInSuccess.token)!!
         val merchandise = merchandiseRepository.create(

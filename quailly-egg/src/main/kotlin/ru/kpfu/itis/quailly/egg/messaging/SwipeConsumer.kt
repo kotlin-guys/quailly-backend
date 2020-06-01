@@ -10,6 +10,6 @@ class SwipeConsumer(private val swipeService: SwipeService) {
 
     @RabbitListener(queues = ["\${spring.rabbitmq.queue}"])
     fun receivedMessage(swipeData: SwipeData) {
-        swipeService.swipe(swipeData)
+        swipeService.swipe(swipeData).subscribe()
     }
 }

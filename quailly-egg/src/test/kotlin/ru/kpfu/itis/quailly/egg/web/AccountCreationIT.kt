@@ -11,7 +11,7 @@ import ru.kpfu.itis.quailly.egg.repository.api.AccountRepository
 import ru.kpfu.itis.quailly.egg.retrieveToken
 
 @SpringBootTest(properties = ["SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/quailly"])
-@AutoConfigureWebTestClient
+@AutoConfigureWebTestClient(timeout = "20000")
 internal class AccountCreationIT {
 
     @Autowired
@@ -22,7 +22,7 @@ internal class AccountCreationIT {
 
     @Test
     fun `account created when not found account in db`() {
-        val data = accountCreationData("yakuza")
+        val data = accountCreationData()
         testClient.retrieveToken(data)
 
         val createdAccount = accountRepository.findByEmail(data.email)!!
@@ -35,8 +35,8 @@ internal class AccountCreationIT {
     }
 
     @Test
-    fun `signed in when found acctount in db`() {
-        val data = accountCreationData("yakuza")
+    fun `signed in when found account in db`() {
+        val data = accountCreationData()
         testClient.retrieveToken(data)
         testClient.retrieveToken(data)
 

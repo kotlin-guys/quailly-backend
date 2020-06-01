@@ -17,29 +17,38 @@ class SwipeService(
 ) {
 
     fun swipe(swipeData: SwipeData): Mono<SwipeResult> {
-        swipeRepository.create(
-            Swipe(
-                accountId = swipeData.swiperId,
-                merchandiseId = swipeData.merchandiseId,
-                direction = swipeData.direction
-            )
-        )
-        if (swipeData.direction == SwipeDirection.RIGHT) {
-            val swipeBack = swipeRepository.findBackSwipeForMerchandise(swipeData.merchandiseId, swipeData.swiperId)
-            if (swipeBack != null) {
-                exchangeRepository.create(
-                    Exchange(
-                        publicationDateTime = OffsetDateTime.now(),
-                        initiatorId = swipeData.swiperId,
-                        exchangeStatus = ExchangeStatus.COMMUNICATION_PENDING,
-                        firstMerchandiseId = swipeBack.merchandiseId,
-                        secondMerchandiseId = swipeData.merchandiseId,
-                        firstAccepted = false,
-                        secondAccepted = false
+        return Mono
+            .just(
+                swipeRepository.create(
+                    Swipe(
+                        accountId = swipeData.swiperId,
+                        merchandiseId = swipeData.merchandiseId,
+                        direction = swipeData.direction
                     )
                 )
+            )
+            .flatMap {
+                if (swipeData.direction == SwipeDirection.RIGHT) {
+                    Mono.justOrEmpty(
+                        swipeRepository
+                            .findBackSwipeForMerchandise(swipeData.merchandiseId, swipeData.swiperId)
+                            ?.also {
+                                exchangeRepository.create(
+                                    Exchange(
+                                        publicationDateTime = OffsetDateTime.now(),
+                                        initiatorId = swipeData.swiperId,
+                                        exchangeStatus = ExchangeStatus.COMMUNICATION_PENDING,
+                                        firstMerchandiseId = it.merchandiseId,
+                                        secondMerchandiseId = swipeData.merchandiseId,
+                                        firstAccepted = false,
+                                        secondAccepted = false
+                                    )
+                                )
+                            }
+                    )
+                }
+                Mono.empty<Swipe>()
             }
-        }
-        return Mono.just(SwipeResult.Success)
+            .map { SwipeResult.Success }
     }
 }
